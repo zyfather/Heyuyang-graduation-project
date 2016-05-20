@@ -29,6 +29,8 @@ public class AlarmData {
         this.isOn = isOn;
         this.isRepeat = isRepeat;
         this.id = ctx.getSharedPreferences("id", 0).getInt("id", 0);
+        ctx.getSharedPreferences("id",0).edit().putInt("id",id+1);
+        ctx.getSharedPreferences("id",0).edit().commit();
 
         if (this.type.getYear() == -1) {
 
@@ -73,6 +75,7 @@ public class AlarmData {
         }
     }
     public void setOn(){
+
         isOn = !isOn;
     }
 }
