@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/title"
+    >
+
+    <include
+        android:id="@+id/custom_user_defined_title"
+        layout="@layout/view_title"></include>
+
+
+    <DatePicker
+        android:layout_marginTop="10dp"
+        android:id="@+id/custom_user_defined_datepicker"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_below="@id/custom_user_defined_title"
+        ></DatePicker>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/custom_user_defined_datepicker"
+        android:gravity="center"
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:id="@+id/define_activity_week"
+            style="@style/define_chooseBar_tv_style"
+            android:text="@string/week"/>
+
+        <TextView
+            android:id="@+id/define_activity_day"
+            style="@style/define_chooseBar_tv_style"
+            android:text="@string/day"/>
+
+        <TextView
+            android:id="@+id/define_activity_month"
+            style="@style/define_chooseBar_tv_style"
+            android:text="@string/month"/>
+
+        <TextView
+            android:id="@+id/define_activity_specialday"
+            style="@style/define_chooseBar_tv_style"
+            android:text="@string/specialDay"/>
+
+
+    </LinearLayout>
+
+</RelativeLayout>
