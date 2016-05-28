@@ -4,11 +4,18 @@ package com.example.yang.myapplication.data;
  * Created by yang on 16/5/18.
  */
 public class RepeatType {
-    int year = -1;
-    int month = -1;
-    int day = -1;
 
-    WeekDay[] weekDays;
+    public final static int EVERYDAY = 0x1;
+    public final static int WEEKDAY = 0x2;
+    public final static int MONTHDAY = 0x3;
+    public final static int YEARDAY = 0x4;
+    public final static int ONEDAY = 0x5;
+
+    private int year = -1;
+    private int month = -1;
+    private int day = -1;
+
+    private WeekDay[] weekDays = null;
 
     public RepeatType(int year, int month, int day) {
         year = year;
@@ -22,7 +29,39 @@ public class RepeatType {
 
     }
 
-    public int getYear(){
+    public int getType() {
+        int type = EVERYDAY;
+        if (year == -1) {
+            if (month == -1) {
+                if (day == -1) {
+                    if (weekDays != null) {
+                        type = WEEKDAY;
+                    }
+                } else {
+                    type = MONTHDAY;
+                }
+            } else {
+                type = YEARDAY;
+            }
+        } else {
+            type = ONEDAY;
+        }
+        return type;
+    }
+
+    public int getYear() {
         return this.year;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public int getDay() {
+        return day;
+    }
+
+    public WeekDay[] getWeekDays() {
+        return weekDays;
     }
 }

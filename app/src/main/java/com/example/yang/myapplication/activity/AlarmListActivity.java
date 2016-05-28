@@ -5,40 +5,57 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.yang.myapplication.R;
+import com.example.yang.myapplication.adapter.AlarmAdapter;
+import com.example.yang.myapplication.utils.AlarmUtil;
 
+/**
+ * 首页闹钟列表
+ */
 public class AlarmListActivity extends Activity {
 
     RecyclerView mAlarmList;
+    AlarmAdapter mAdapter;
 
-    TextView leftTv;
+    TextView aboutTv;
     TextView middleTv;
-    TextView rightTv;
+    ImageView addIv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_list);
 
-        leftTv = (TextView) findViewById(R.id.title_left_tv);
+        initViews();
+
+    }
+
+    public void initViews() {
+        aboutTv = (TextView) findViewById(R.id.title_left_tv);
         middleTv = (TextView) findViewById(R.id.title_middle_tv);
-        rightTv = (TextView) findViewById(R.id.title_right_tv);
+        addIv = (ImageView) findViewById(R.id.title_right_iv);
         mAlarmList = (RecyclerView) findViewById(R.id.alarm_list);
 
-        leftTv.setText(R.string.about);
+        aboutTv.setText(R.string.about);
         middleTv.setText(R.string.alarm);
-        rightTv.setText(R.string.newAlarm);
+        addIv.setVisibility(View.VISIBLE);
+        findViewById(R.id.title_right_tv).setVisibility(View.GONE);
 
-
-        rightTv.setOnClickListener(new View.OnClickListener() {
+        addIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AlarmListActivity.this,CustomUserDefinedActivity.class);
+                Intent intent = new Intent(AlarmListActivity.this, CustomUserDefinedActivity.class);
                 startActivity(intent);
             }
         });
+        mAdapter = new AlarmAdapter(this);
+        mAlarmList.setAdapter(mAdapter);
+        mAdapter.setmDatas(AlarmUtil.getAlarms(this));
+
+
     }
 
 

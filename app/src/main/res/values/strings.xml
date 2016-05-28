@@ -10,4 +10,5 @@
     <string name="day">某天</string>
     <string name="month">每月</string>
     <string name="specialDay">纪念日</string>
+    <string name="alarm_info">alarm_info</string>
 </resources>
