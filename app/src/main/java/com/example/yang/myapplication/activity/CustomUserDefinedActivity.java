@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.example.yang.myapplication.R;
@@ -25,10 +27,12 @@ public class CustomUserDefinedActivity extends Activity implements View.OnClickL
     TextView monthTv;
     TextView SpecialDayTv;
 
+    DatePicker mDatePicker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
         setContentView(R.layout.activity_custom_user_defined);
 
         leftTv = (TextView) findViewById(R.id.title_left_tv);
@@ -38,6 +42,8 @@ public class CustomUserDefinedActivity extends Activity implements View.OnClickL
         dayTV = (TextView) findViewById(R.id.define_activity_day);
         monthTv = (TextView) findViewById(R.id.define_activity_month);
         SpecialDayTv = (TextView) findViewById(R.id.define_activity_specialday);
+
+        mDatePicker = (DatePicker) findViewById(R.id.custom_user_defined_datepicker);
 
 
         leftTv.setText(R.string.cancel);

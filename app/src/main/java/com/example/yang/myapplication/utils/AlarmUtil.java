@@ -1,15 +1,22 @@
 package com.example.yang.myapplication.utils;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 
+import com.example.yang.myapplication.AlarmReceiver;
 import com.example.yang.myapplication.R;
 import com.example.yang.myapplication.data.AlarmData;
+import com.example.yang.myapplication.data.RepeatType;
+import com.example.yang.myapplication.data.WeekDay;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -17,24 +24,109 @@ import java.util.List;
  */
 public class AlarmUtil {
 
+
     /**
      * 保存AlarmDatas to json
      */
-    public static void saveAlarm(AlarmData alarmData, Context context) {
+    public static void saveAlarm(Context context, AlarmData... alarmDatas) {
+        if (alarmDatas == null || alarmDatas.length == 0) {
+            return;
+        }
         SharedPreferences sp = context.getSharedPreferences(context.getString(R.string.alarm_info), Context.MODE_APPEND);
-        sp.edit().putString("alarmsJson", new Gson().toJson(getAlarms(context).add(alarmData)));
+        List<AlarmData> alarmDataList = getAlarms(context);
+        if (alarmDataList == null) {
+            alarmDataList = new ArrayList<>();
+        }
+        SharedPreferences.Editor ed = sp.edit();
+        for (AlarmData data : alarmDatas)
+            alarmDataList.add(data);
+        String dataStr = new Gson().toJson(alarmDataList);
+        ed.putString("alarmsJson", dataStr);
+        ed.commit();
+    }
+
+    /**
+     * 替换AlarmDatas
+     */
+    public static void replaceAlarm(Context context, List<AlarmData> alarmDataList) {
+
+        if (alarmDataList == null) {
+            return;
+        }
+        SharedPreferences sp = context.getSharedPreferences(context.getString(R.string.alarm_info), Context.MODE_APPEND);
+        SharedPreferences.Editor ed = sp.edit();
+        String dataStr = new Gson().toJson(alarmDataList);
+        ed.putString("alarmsJson", dataStr);
+        ed.commit();
+
     }
 
     /**
      * 读取AlarmDatas form json
+     *
      * @param context
      * @return
      */
     public static List<AlarmData> getAlarms(Context context) {
         SharedPreferences sp = context.getSharedPreferences(context.getString(R.string.alarm_info), Context.MODE_APPEND);
-        String alarmsJson = sp.getString("alarmsJon", "");
+        String alarmsJson = sp.getString("alarmsJson", null);
         Type collectionType = new TypeToken<ArrayList<AlarmData>>() {
         }.getType();
         return new Gson().fromJson(alarmsJson, collectionType);
+    }
+
+    /**
+     * 上发条
+     *
+     * @param alarmData
+     */
+    public static void windUp(Context ctx, AlarmData alarmData) {
+
+        Intent intent = new Intent(ctx, AlarmReceiver.class);
+        PendingIntent sender = PendingIntent.getBroadcast(
+                ctx, 0, intent, 0);
+
+        Calendar calendar = Calendar.getInstance();
+//        calendar.setTimeInMillis(System.currentTimeMillis());
+//        calendar.add(Calendar.SECOND, 3);
+
+        int hou = alarmData.getHour();
+        int min = alarmData.getMinute();
+
+        switch (alarmData.getRepeatType().getType()) {
+            case RepeatType.EVERYDAY:
+                calendar.set(Calendar.HOUR_OF_DAY, hou);
+                calendar.set(Calendar.MINUTE, min);
+                break;
+            case RepeatType.WEEKDAY:
+                for (WeekDay weekDay : alarmData.getRepeatType().getWeekDays()) {
+                    calendar.set(Calendar.DAY_OF_WEEK, weekDay.getValue());
+                    calendar.set(Calendar.HOUR, hou);
+                    calendar.set(Calendar.MINUTE, min);
+                }
+                break;
+            case RepeatType.MONTHDAY:
+                calendar.set(Calendar.MONTH, alarmData.getRepeatType().getMonth());
+                calendar.set(Calendar.DATE, alarmData.getRepeatType().getDay());
+                calendar.set(Calendar.HOUR, hou);
+                calendar.set(Calendar.MINUTE, min);
+                break;
+            case RepeatType.YEARDAY:
+                calendar.set(Calendar.DAY_OF_YEAR, alarmData.getRepeatType().getDay());
+                calendar.set(Calendar.HOUR, hou);
+                calendar.set(Calendar.MINUTE, min);
+                break;
+            case RepeatType.ONEDAY:
+                calendar.set(alarmData.getRepeatType().getYear(), alarmData.getRepeatType().getMonth(), alarmData.getRepeatType().getDay());
+                calendar.set(Calendar.HOUR, hou);
+                calendar.set(Calendar.MINUTE, min);
+                break;
+
+        }
+
+        AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
+        am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), sender);
+
+
     }
 }

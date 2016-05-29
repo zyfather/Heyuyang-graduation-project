@@ -1,9 +1,5 @@
 package com.example.yang.myapplication.data;
 
-import android.content.Context;
-
-import com.example.yang.myapplication.R;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,40 +14,109 @@ public class AlarmData {
     private int minute;
     private boolean isVib;
     private String ringName;
-    private RepeatType type;
+    private RepeatType repeatType;
     private boolean isOn;
     private boolean isRepeat;
     private int id;
     private List<Alarm> alarmList;
 
-
-    public AlarmData(Context ctx, String name, String details, int hour, int minute, boolean isVib, String ringName, RepeatType type, boolean isOn, boolean isRepeat) {
+    public AlarmData(String name, String details, int hour, int minute, boolean isVib, String ringName, RepeatType repeatType, boolean isOn, boolean isRepeat) {
         this.name = name;
         this.details = details;
         this.hour = hour;
         this.minute = minute;
         this.isVib = isVib;
         this.ringName = ringName;
-        this.type = type;
+        this.repeatType = repeatType;
         this.isOn = isOn;
         this.isRepeat = isRepeat;
-        this.id = ctx.getSharedPreferences(ctx.getString(R.string.alarm_info), 0).getInt("id", 0);
+//        SharedPreferences sp = ctx.getSharedPreferences(ctx.getString(R.string.alarm_info), 0);
+//        this.id = sp.getInt("id", 0);
         alarmList = new ArrayList<>();
-        ctx.getSharedPreferences(ctx.getString(R.string.alarm_info), 0).edit().putInt("id", id + 1);
-        ctx.getSharedPreferences(ctx.getString(R.string.alarm_info), 0).edit().commit();
+//        SharedPreferences.Editor ed = sp.edit();
+//        ed.putInt("id", id + 1);
+//        ed.commit();
 
-        if (type.getType() == RepeatType.WEEKDAY) {
-            for (int i = 0; i < type.getWeekDays().length; i++) {
+        if (repeatType.getType() == RepeatType.WEEKDAY) {
+            for (int i = 0; i < repeatType.getWeekDays().length; i++) {
                 Alarm alarm = new Alarm().setId(id).setName(name).setDetails(details).setIsVib(isVib).setRingName(ringName)
-                        .setWeek(type.getWeekDays()[i]).setHour(hour).setMinute(minute).create();
+                        .setWeek(repeatType.getWeekDays()[i]).setHour(hour).setMinute(minute).create();
                 alarmList.add(alarm);
             }
         } else {
             Alarm alarm = new Alarm().setId(id).setName(name).setDetails(details).setIsVib(isVib).setRingName(ringName)
-                    .setYear(type.getYear()).setMonth(type.getMonth()).setDay(type.getDay()).setHour(hour).setMinute(minute).create();
+                    .setYear(repeatType.getYear()).setMonth(repeatType.getMonth()).setDay(repeatType.getDay()).setHour(hour).setMinute(minute).create();
             alarmList.add(alarm);
         }
 
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
+    public void setHour(int hour) {
+        this.hour = hour;
+    }
+
+    public void setMinute(int minute) {
+        this.minute = minute;
+    }
+
+    public boolean isVib() {
+        return isVib;
+    }
+
+    public void setIsVib(boolean isVib) {
+        this.isVib = isVib;
+    }
+
+    public String getRingName() {
+        return ringName;
+    }
+
+    public void setRingName(String ringName) {
+        this.ringName = ringName;
+    }
+
+    public RepeatType getRepeatType() {
+        return repeatType;
+    }
+
+    public void setRepeatType(RepeatType repeatType) {
+        this.repeatType = repeatType;
+    }
+
+    public void setIsOn(boolean isOn) {
+        this.isOn = isOn;
+    }
+
+    public boolean isRepeat() {
+        return isRepeat;
+    }
+
+    public void setIsRepeat(boolean isRepeat) {
+        this.isRepeat = isRepeat;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public List<Alarm> getAlarmList() {
+        return alarmList;
+    }
+
+    public void setAlarmList(List<Alarm> alarmList) {
+        this.alarmList = alarmList;
     }
 
     public String getName() {
@@ -83,16 +148,16 @@ public class AlarmData {
 
         String typeStr = "";
 
-        if (type != null) {
-            int typeInt = type.getType();
+        if (repeatType != null) {
+            int typeInt = repeatType.getType();
             switch (typeInt) {
                 case RepeatType.EVERYDAY:
                     typeStr = "每天";
                     break;
                 case RepeatType.WEEKDAY:
                     StringBuilder sb = new StringBuilder(typeStr);
-                    if (type.getWeekDays() != null) {
-                        for (WeekDay weekDay : type.getWeekDays()) {
+                    if (repeatType.getWeekDays() != null) {
+                        for (WeekDay weekDay : repeatType.getWeekDays()) {
                             sb.append(weekDay);
                             sb.append(" ");
                         }
@@ -100,13 +165,13 @@ public class AlarmData {
                     }
                     break;
                 case RepeatType.MONTHDAY:
-                    typeStr = "每月" + type.getDay() + "日";
+                    typeStr = "每月" + repeatType.getDay() + "日";
                     break;
                 case RepeatType.YEARDAY:
-                    typeStr = "每年" + type.getMonth() + "月" + type.getDay() + "日";
+                    typeStr = "每年" + repeatType.getMonth() + "月" + repeatType.getDay() + "日";
                     break;
                 case RepeatType.ONEDAY:
-                    typeStr = type.getYear() + "年" + type.getMonth() + "月" + type.getDay() + "日";
+                    typeStr = repeatType.getYear() + "年" + repeatType.getMonth() + "月" + repeatType.getDay() + "日";
                     break;
             }
         }
@@ -119,9 +184,13 @@ public class AlarmData {
         String minStr = "";
         if (this.hour < 10) {
             houStr = "0" + this.hour;
+        } else {
+            houStr = "" + this.hour;
         }
         if (this.minute < 10) {
             minStr = "0" + this.minute;
+        } else {
+            minStr = "" + this.minute;
         }
         return houStr + ":" + minStr;
     }

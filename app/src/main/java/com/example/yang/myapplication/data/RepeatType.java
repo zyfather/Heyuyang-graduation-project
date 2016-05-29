@@ -49,6 +49,22 @@ public class RepeatType {
         return type;
     }
 
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public void setDay(int day) {
+        this.day = day;
+    }
+
+    public void setWeekDays(WeekDay[] weekDays) {
+        this.weekDays = weekDays;
+    }
+
     public int getYear() {
         return this.year;
     }

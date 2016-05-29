@@ -11,8 +11,11 @@ import android.widget.Toast;
 
 import com.example.yang.myapplication.R;
 import com.example.yang.myapplication.data.AlarmData;
+import com.example.yang.myapplication.utils.AlarmUtil;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by yang on 16/5/15.
@@ -22,9 +25,11 @@ public class AlarmAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     List<AlarmData> mDatas;
     Context mContext;
+    Map<Integer, Boolean> switchMap;
 
     public AlarmAdapter(Context mContext) {
         this.mContext = mContext;
+        switchMap = new HashMap<>();
     }
 
     public void setmDatas(List<AlarmData> mDatas) {
@@ -39,19 +44,38 @@ public class AlarmAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if (mDatas.size() > position) {
+            if (switchMap.get(position) != null && switchMap.get(position)) {
+                ((ViewHolder) holder).itemView.setAlpha(0.5f);
+                ((ViewHolder) holder).mSwitch.setChecked(false);
+            } else {
+                ((ViewHolder) holder).itemView.setAlpha(1.0f);
+                ((ViewHolder) holder).mSwitch.setChecked(true);
+            }
             AlarmData data = mDatas.get(position);
             if (data != null) {
                 ((ViewHolder) holder).mTime.setText(data.getTimeStr());
-                ((ViewHolder) holder).mInfo.setText(data.getDetails() + ", " + data.getTypeStr());
+                ((ViewHolder) holder).mInfo.setText(data.getName() + ", " + data.getTypeStr());
                 if (data.isOn()) {
                     ((ViewHolder) holder).mSwitch.setChecked(true);
+                } else {
+                    ((ViewHolder) holder).itemView.setAlpha(0.5f);
+                    ((ViewHolder) holder).mSwitch.setChecked(false);
                 }
                 ((ViewHolder) holder).mSwitch.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         mDatas.get(position).setSwitch();
+                        if (mDatas.get(position).isOn()) {
+                            ((ViewHolder) holder).itemView.setAlpha(1.0f);
+                            switchMap.put(position, false);
+
+                        } else {
+                            ((ViewHolder) holder).itemView.setAlpha(0.5f);
+                            switchMap.put(position, true);
+                        }
+                        AlarmUtil.replaceAlarm(mContext, mDatas);
                     }
                 });
                 ((ViewHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
@@ -70,13 +94,15 @@ public class AlarmAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     }
                 });
             }
+
+
         }
 
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mDatas.size();
     }
 
 
