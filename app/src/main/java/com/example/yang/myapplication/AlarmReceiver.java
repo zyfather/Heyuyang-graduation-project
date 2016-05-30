@@ -24,6 +24,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         }
         Intent wake = new Intent(context, WakeUpActivity.class);
+        wake.putExtra("alarmData", alarmData);
         wake.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(wake);
     }

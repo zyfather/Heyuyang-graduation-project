@@ -206,18 +206,13 @@ public class AlarmUtil {
             AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
             am.cancel(sender);
         }
-    }
 
-    /**
-     * 唤醒后
-     */
-    public static void afterWake(Context context, AlarmData alarmData) {
-
-        for (AlarmData localData : getAlarms(context)) {
+        for (AlarmData localData : getAlarms(ctx)) {
             if (localData.getIds()[0] == alarmData.getIds()[0]) {
                 localData.setSwitch();
             }
         }
-
     }
+
+
 }

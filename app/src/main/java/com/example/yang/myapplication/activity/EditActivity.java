@@ -4,13 +4,17 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.media.RingtoneManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -20,6 +24,9 @@ import com.example.yang.myapplication.R;
 import com.example.yang.myapplication.data.AlarmData;
 import com.example.yang.myapplication.data.RepeatType;
 import com.example.yang.myapplication.utils.AlarmUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class EditActivity extends Activity {
 
@@ -40,6 +47,8 @@ public class EditActivity extends Activity {
     Button mDelete;
 
     private RepeatType repeatType = new RepeatType();
+    private List<String> sysRings;
+    private int currentRing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +66,7 @@ public class EditActivity extends Activity {
         findViewById(R.id.title_right_iv).setVisibility(View.GONE);
 
         cancelTv.setText("取消");
-        middleTv.setText("添加/编辑");  //TODO 判断
+        middleTv.setText("添加");  //TODO 判断
         saveTv.setText("存储");
 
         mTimePicker = (TimePicker) findViewById(R.id.edit_time_picker);
@@ -76,6 +85,20 @@ public class EditActivity extends Activity {
 
         initClick();
 
+        initRing();
+
+    }
+
+    private void initRing() {
+
+        sysRings = new ArrayList<>();
+        RingtoneManager manager = new RingtoneManager(EditActivity.this);
+        manager.setType(RingtoneManager.TYPE_ALARM);
+        Cursor cursor = manager.getCursor();
+
+        for (int i = 0; i < cursor.getCount(); i++) {
+            sysRings.add(manager.getRingtone(i).getTitle(EditActivity.this));
+        }
     }
 
     private void initClick() {
@@ -96,8 +119,8 @@ public class EditActivity extends Activity {
                 }
 
                 String name = tagText.getText().toString();
-                String detail = (String) contentText.getText();
-                String ring = (String) ringText.getText();
+                String detail = contentText.getText().toString();
+//                String ring = ringText.getText().toString();
 
 
                 SharedPreferences sp = EditActivity.this.getSharedPreferences(EditActivity.this.getString(R.string.alarm_info), 0);
@@ -117,7 +140,7 @@ public class EditActivity extends Activity {
                 ed.commit();
 
                 AlarmData saveAlarm = new AlarmData(name, detail, hou, min
-                        , false, ring, repeatType, true, true, ids);
+                        , false, currentRing, repeatType, true, true, ids);
                 AlarmUtil.saveAlarm(EditActivity.this, saveAlarm);
                 setResult(RESULT_OK);
                 finish();
@@ -164,10 +187,98 @@ public class EditActivity extends Activity {
                     }
                 });
 
+            }
+        });
+
+        mContent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                View dialogView = LayoutInflater.from(EditActivity.this).inflate(R.layout.dialog_content, null);
+                AlertDialog.Builder builder
+                        = new AlertDialog.Builder(EditActivity.this);
+                final AlertDialog dialog = builder.setView(dialogView).create();
+                dialog.show();
+                TextView mid = (TextView) dialogView.findViewById(R.id.dialog_middle);
+                mid.setText("内容");
+                final EditText content = (EditText) dialogView.findViewById(R.id.content_et);
+                content.setText(contentText.getText());
+                dialogView.findViewById(R.id.dialog_confirm).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        contentText.setText(content.getText());
+                        dialog.dismiss();
+                    }
+                });
+                dialogView.findViewById(R.id.dialog_cancel).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+            }
+        });
+
+        mRing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                View dialogView = LayoutInflater.from(EditActivity.this).inflate(R.layout.dialog_ring, null);
+                AlertDialog.Builder builder
+                        = new AlertDialog.Builder(EditActivity.this);
+                final AlertDialog dialog = builder.setView(dialogView).create();
+                dialog.show();
+                TextView mid = (TextView) dialogView.findViewById(R.id.dialog_middle);
+                mid.setText("铃声");
+
+                final NumberPicker ringPicker = (NumberPicker) dialogView.findViewById(R.id.ring_np);
+                ringPicker.setDisplayedValues(sysRings.toArray(new String[sysRings.size()]));
+                ringPicker.setMinValue(0);
+                ringPicker.setMaxValue(sysRings.size() - 1);
+                ringPicker.setValue(currentRing);
+                ringPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+                    @Override
+                    public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                        //TODO 切换效果
+                    }
+                });
+                EditText editText = findInput(ringPicker);
+                editText.setKeyListener(null);
+                ringPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+
+                dialogView.findViewById(R.id.dialog_confirm).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ringText.setText(sysRings.get(ringPicker.getValue()));
+                        currentRing = ringPicker.getValue();
+                        dialog.dismiss();
+                    }
+                });
+
+                dialogView.findViewById(R.id.dialog_cancel).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
 
             }
         });
 
+    }
+
+    private EditText findInput(ViewGroup np) {
+        int count = np.getChildCount();
+        for (int i = 0; i < count; i++) {
+            final View child = np.getChildAt(i);
+            if (child instanceof ViewGroup) {
+                findInput((ViewGroup) child);
+            } else if (child instanceof EditText) {
+                return (EditText) child;
+            }
+        }
+        return null;
     }
 
     @Override

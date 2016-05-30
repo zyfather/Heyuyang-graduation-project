@@ -3,19 +3,29 @@ package com.example.yang.myapplication.activity;
 import android.app.Activity;
 import android.app.KeyguardManager;
 import android.content.Context;
+import android.media.MediaPlayer;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.view.View;
 import android.view.Window;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.yang.myapplication.R;
 import com.example.yang.myapplication.data.AlarmData;
-import com.example.yang.myapplication.utils.AlarmUtil;
+
+import java.io.IOException;
 
 /**
  * 闹钟响铃界面
  */
 public class WakeUpActivity extends Activity {
+
+    TextView mTag;
+    TextView mContent;
+    MediaPlayer mPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,11 +33,44 @@ public class WakeUpActivity extends Activity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
         setContentView(R.layout.activity_wake_up);
 
+        initViews();
+
+        AlarmData alarmData = (AlarmData) getIntent().getSerializableExtra("alarmData");
+        if (alarmData != null) {
+            mTag.setText(alarmData.getName());
+            mContent.setText(alarmData.getDetails());
+
+            RingtoneManager manager = new RingtoneManager(WakeUpActivity.this);
+            manager.setType(RingtoneManager.TYPE_ALARM);
+            Uri ringUri = manager.getRingtoneUri(alarmData.getRing());
+
+            mPlayer = MediaPlayer.create(WakeUpActivity.this, ringUri);
+            try {
+                mPlayer.prepare();
+                mPlayer.start();
+            } catch (IOException e) {
+                Toast.makeText(WakeUpActivity.this, "ring error", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        }
+
         wakeUpAndUnlock(this);
-        AlarmUtil.windDown(this, (AlarmData) getIntent().getSerializableExtra("alarmData"));
+
+        //AlarmUtil.windDown(this, alarmData);
+    }
+
+    private void initViews() {
+        mTag = (TextView) findViewById(R.id.wake_tag);
+        mContent = (TextView) findViewById(R.id.wake_content);
     }
 
     public void close(View view) {
+
+        if(mPlayer.isPlaying()) {
+            mPlayer.pause();
+            mPlayer.stop();
+            mPlayer.release();
+        }
         finish();
     }
 
@@ -45,4 +88,5 @@ public class WakeUpActivity extends Activity {
         //释放
         wl.release();
     }
+
 }

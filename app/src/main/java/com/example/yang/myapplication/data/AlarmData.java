@@ -12,21 +12,21 @@ public class AlarmData implements Serializable {
     private int hour;
     private int minute;
     private boolean isVib;
-    private String ringName;
+    private int ring;
     private RepeatType repeatType;
     private boolean isOn;
     private boolean isRepeat;
     private int[] ids;
 //    private List<Alarm> alarmList;
 
-    public AlarmData(String name, String details, int hour, int minute, boolean isVib, String ringName, RepeatType repeatType, boolean isOn, boolean isRepeat, int... ids) {
+    public AlarmData(String name, String details, int hour, int minute, boolean isVib, int ring, RepeatType repeatType, boolean isOn, boolean isRepeat, int... ids) {
         this.ids = ids;
         this.name = name;
         this.details = details;
         this.hour = hour;
         this.minute = minute;
         this.isVib = isVib;
-        this.ringName = ringName;
+        this.ring = ring;
         this.repeatType = repeatType;
         this.isOn = isOn;
         this.isRepeat = isRepeat;
@@ -70,12 +70,12 @@ public class AlarmData implements Serializable {
         this.isVib = isVib;
     }
 
-    public String getRingName() {
-        return ringName;
+    public int getRing() {
+        return ring;
     }
 
-    public void setRingName(String ringName) {
-        this.ringName = ringName;
+    public void setRing(int ring) {
+        this.ring = ring;
     }
 
     public RepeatType getRepeatType() {
