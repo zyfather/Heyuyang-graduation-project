@@ -34,7 +34,7 @@ public class RepeatType {
         if (year == -1) {
             if (month == -1) {
                 if (day == -1) {
-                    if (weekDays != null) {
+                    if (weekDays != null && weekDays.length > 0) {
                         type = WEEKDAY;
                     }
                 } else {
@@ -79,5 +79,13 @@ public class RepeatType {
 
     public WeekDay[] getWeekDays() {
         return weekDays;
+    }
+
+    public int[] getWeekValue() {
+        int[] weekArray = new int[weekDays.length];
+        for (int i = 0; i < weekArray.length; i++) {
+            weekArray[i] = weekDays[i].getValue();
+        }
+        return weekArray;
     }
 }

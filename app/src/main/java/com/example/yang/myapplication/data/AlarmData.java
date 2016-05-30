@@ -1,12 +1,11 @@
 package com.example.yang.myapplication.data;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Serializable;
 
 /**
  * Created by yang on 16/5/18.
  */
-public class AlarmData {
+public class AlarmData implements Serializable {
 
     private String name;
     private String details;
@@ -17,10 +16,11 @@ public class AlarmData {
     private RepeatType repeatType;
     private boolean isOn;
     private boolean isRepeat;
-    private int id;
-    private List<Alarm> alarmList;
+    private int[] ids;
+//    private List<Alarm> alarmList;
 
-    public AlarmData(String name, String details, int hour, int minute, boolean isVib, String ringName, RepeatType repeatType, boolean isOn, boolean isRepeat) {
+    public AlarmData(String name, String details, int hour, int minute, boolean isVib, String ringName, RepeatType repeatType, boolean isOn, boolean isRepeat, int... ids) {
+        this.ids = ids;
         this.name = name;
         this.details = details;
         this.hour = hour;
@@ -30,24 +30,19 @@ public class AlarmData {
         this.repeatType = repeatType;
         this.isOn = isOn;
         this.isRepeat = isRepeat;
-//        SharedPreferences sp = ctx.getSharedPreferences(ctx.getString(R.string.alarm_info), 0);
-//        this.id = sp.getInt("id", 0);
-        alarmList = new ArrayList<>();
-//        SharedPreferences.Editor ed = sp.edit();
-//        ed.putInt("id", id + 1);
-//        ed.commit();
 
-        if (repeatType.getType() == RepeatType.WEEKDAY) {
-            for (int i = 0; i < repeatType.getWeekDays().length; i++) {
-                Alarm alarm = new Alarm().setId(id).setName(name).setDetails(details).setIsVib(isVib).setRingName(ringName)
-                        .setWeek(repeatType.getWeekDays()[i]).setHour(hour).setMinute(minute).create();
-                alarmList.add(alarm);
-            }
-        } else {
-            Alarm alarm = new Alarm().setId(id).setName(name).setDetails(details).setIsVib(isVib).setRingName(ringName)
-                    .setYear(repeatType.getYear()).setMonth(repeatType.getMonth()).setDay(repeatType.getDay()).setHour(hour).setMinute(minute).create();
-            alarmList.add(alarm);
-        }
+
+//        if (repeatType.getType() == RepeatType.WEEKDAY) {
+//            for (int i = 0; i < repeatType.getWeekDays().length; i++) {
+//                Alarm alarm = new Alarm().setId(id).setName(name).setDetails(details).setIsVib(isVib).setRingName(ringName)
+//                        .setWeek(repeatType.getWeekDays()[i]).setHour(hour).setMinute(minute).create();
+//                alarmList.add(alarm);
+//            }
+//        } else {
+//            Alarm alarm = new Alarm().setId(id).setName(name).setDetails(details).setIsVib(isVib).setRingName(ringName)
+//                    .setYear(repeatType.getYear()).setMonth(repeatType.getMonth()).setDay(repeatType.getDay()).setHour(hour).setMinute(minute).create();
+//            alarmList.add(alarm);
+//        }
 
     }
 
@@ -103,20 +98,12 @@ public class AlarmData {
         this.isRepeat = isRepeat;
     }
 
-    public int getId() {
-        return id;
+    public int[] getIds() {
+        return ids;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public List<Alarm> getAlarmList() {
-        return alarmList;
-    }
-
-    public void setAlarmList(List<Alarm> alarmList) {
-        this.alarmList = alarmList;
+    public void setIds(int[] ids) {
+        this.ids = ids;
     }
 
     public String getName() {

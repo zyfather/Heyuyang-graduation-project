@@ -1,7 +1,8 @@
 package com.example.yang.myapplication.activity;
 
 import android.app.Activity;
-import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.example.yang.myapplication.ConstantValue;
 import com.example.yang.myapplication.R;
 import com.example.yang.myapplication.data.AlarmData;
 import com.example.yang.myapplication.data.RepeatType;
@@ -29,6 +31,9 @@ public class EditActivity extends Activity {
     TextView contentText;
     TextView ringText;
 
+    TextView cancelTv;
+    TextView saveTv;
+
     Button mDelete;
 
     @Override
@@ -40,9 +45,9 @@ public class EditActivity extends Activity {
     }
 
     private void initViews() {
-        TextView cancelTv = (TextView) findViewById(R.id.title_left_tv);
+        cancelTv = (TextView) findViewById(R.id.title_left_tv);
         TextView middleTv = (TextView) findViewById(R.id.title_middle_tv);
-        TextView saveTv = (TextView) findViewById(R.id.title_right_tv);
+        saveTv = (TextView) findViewById(R.id.title_right_tv);
         saveTv.setVisibility(View.VISIBLE);
         findViewById(R.id.title_right_iv).setVisibility(View.GONE);
 
@@ -63,10 +68,14 @@ public class EditActivity extends Activity {
         contentText = (TextView) findViewById(R.id.tv_content);
         ringText = (TextView) findViewById(R.id.tv_ring);
 
+
+        initClick();
+
+    }
+
+    private void initClick() {
+
         //TODO delete 判断
-
-
-        final Context ctx = this;
 
         saveTv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,7 +93,27 @@ public class EditActivity extends Activity {
                 String name = tagText.getText().toString();
                 String detail = (String) contentText.getText();
                 String ring = (String) ringText.getText();
-                AlarmUtil.saveAlarm(ctx, new AlarmData(name, detail, hou, min, false, ring, new RepeatType(), true, true));
+                RepeatType repeatType = new RepeatType();
+
+                SharedPreferences sp = EditActivity.this.getSharedPreferences(EditActivity.this.getString(R.string.alarm_info), 0);
+                int id = sp.getInt("id", 0);
+
+                int[] ids = new int[]{id};
+                if (repeatType.getType() == RepeatType.WEEKDAY) {
+                    ids = new int[repeatType.getWeekDays().length];
+
+                    for (int i = 1; i < ids.length; i++) {
+                        ids[i] = ++id;
+                    }
+                }
+
+                SharedPreferences.Editor ed = sp.edit();
+                ed.putInt("id", ids[ids.length - 1] + 1);
+                ed.commit();
+
+                AlarmUtil.saveAlarm(EditActivity.this, new AlarmData(name, detail, hou, min
+                                , false, ring, repeatType, true, true, ids)
+                );
                 setResult(RESULT_OK);
                 finish();
             }
@@ -96,6 +125,14 @@ public class EditActivity extends Activity {
             }
         });
 
+        mRepeat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(new Intent(EditActivity.this, CustomUserDefinedActivity.class)
+                        , ConstantValue.repeatRequestCode);
+
+            }
+        });
 
     }
 }

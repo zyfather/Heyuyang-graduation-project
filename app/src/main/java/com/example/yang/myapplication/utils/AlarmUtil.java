@@ -62,7 +62,7 @@ public class AlarmUtil {
     }
 
     /**
-     * 读取AlarmDatas form json
+     * 读取AlarmDatas from json
      *
      * @param context
      * @return
@@ -82,51 +82,98 @@ public class AlarmUtil {
      */
     public static void windUp(Context ctx, AlarmData alarmData) {
 
-        Intent intent = new Intent(ctx, AlarmReceiver.class);
-        PendingIntent sender = PendingIntent.getBroadcast(
-                ctx, 0, intent, 0);
-
-        Calendar calendar = Calendar.getInstance();
-//        calendar.setTimeInMillis(System.currentTimeMillis());
-//        calendar.add(Calendar.SECOND, 3);
-
-        int hou = alarmData.getHour();
-        int min = alarmData.getMinute();
-
-        switch (alarmData.getRepeatType().getType()) {
-            case RepeatType.EVERYDAY:
-                calendar.set(Calendar.HOUR_OF_DAY, hou);
-                calendar.set(Calendar.MINUTE, min);
-                break;
-            case RepeatType.WEEKDAY:
-                for (WeekDay weekDay : alarmData.getRepeatType().getWeekDays()) {
-                    calendar.set(Calendar.DAY_OF_WEEK, weekDay.getValue());
-                    calendar.set(Calendar.HOUR, hou);
-                    calendar.set(Calendar.MINUTE, min);
-                }
-                break;
-            case RepeatType.MONTHDAY:
-                calendar.set(Calendar.MONTH, alarmData.getRepeatType().getMonth());
-                calendar.set(Calendar.DATE, alarmData.getRepeatType().getDay());
-                calendar.set(Calendar.HOUR, hou);
-                calendar.set(Calendar.MINUTE, min);
-                break;
-            case RepeatType.YEARDAY:
-                calendar.set(Calendar.DAY_OF_YEAR, alarmData.getRepeatType().getDay());
-                calendar.set(Calendar.HOUR, hou);
-                calendar.set(Calendar.MINUTE, min);
-                break;
-            case RepeatType.ONEDAY:
-                calendar.set(alarmData.getRepeatType().getYear(), alarmData.getRepeatType().getMonth(), alarmData.getRepeatType().getDay());
-                calendar.set(Calendar.HOUR, hou);
-                calendar.set(Calendar.MINUTE, min);
-                break;
-
+        if (alarmData == null) {
+            return;
         }
 
-        AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
-        am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), sender);
+        int[] ids = alarmData.getIds();
 
+        int INTERVAL;
+
+        Intent intent = new Intent(ctx, AlarmReceiver.class);
+
+        for (int id : ids) {
+
+            PendingIntent sender = PendingIntent.getBroadcast(
+                    ctx, id, intent, 0);
+
+            AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
+
+            Calendar calendar = Calendar.getInstance();
+//        calendar.setTimeInMillis(System.currentTimeMillis());
+//            calendar.add(Calendar.MILLISECOND, 3);
+
+            int hou = alarmData.getHour();
+            int min = alarmData.getMinute();
+
+            switch (alarmData.getRepeatType().getType()) {
+                case RepeatType.EVERYDAY:
+                    calendar.set(Calendar.HOUR_OF_DAY, hou);
+                    calendar.set(Calendar.MINUTE, min);
+                    INTERVAL = 1000 * 60 * 60 * 24;// 24h
+                    am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), INTERVAL, sender);
+                    break;
+                case RepeatType.WEEKDAY:
+                    for (WeekDay weekDay : alarmData.getRepeatType().getWeekDays()) {
+                        calendar.set(Calendar.DAY_OF_WEEK, weekDay.getValue());
+                        calendar.set(Calendar.HOUR, hou);
+                        calendar.set(Calendar.MINUTE, min);
+                        INTERVAL = 1000 * 60 * 60 * 24 * 7;// 7days
+                        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), INTERVAL, sender);
+                    }
+                    break;
+                case RepeatType.MONTHDAY:
+                    calendar.set(Calendar.MONTH, calendar.getTime().getMonth() + 1);
+                    calendar.set(Calendar.DATE, alarmData.getRepeatType().getDay());
+                    calendar.set(Calendar.HOUR, hou);
+                    calendar.set(Calendar.MINUTE, min);
+
+                    intent.putExtra("isMonthDay", true);
+                    intent.putExtra("alarmData", alarmData);
+                    sender = PendingIntent.getBroadcast(
+                            ctx, id, intent, 0);
+                    am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), sender);
+                    break;
+                case RepeatType.YEARDAY:
+                    calendar.set(Calendar.DAY_OF_YEAR, alarmData.getRepeatType().getDay());
+                    calendar.set(Calendar.HOUR, hou);
+                    calendar.set(Calendar.MINUTE, min);
+                    INTERVAL = 1000 * 60 * 60 * 24 * 365;// 365days
+                    am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), INTERVAL, sender);
+                    break;
+                case RepeatType.ONEDAY:
+                    calendar.set(alarmData.getRepeatType().getYear(), alarmData.getRepeatType().getMonth(), alarmData.getRepeatType().getDay());
+                    calendar.set(Calendar.HOUR, hou);
+                    calendar.set(Calendar.MINUTE, min);
+                    am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), sender);
+                    break;
+
+            }
+        }
+
+
+    }
+
+    /**
+     * 卸发条
+     *
+     * @param ctx
+     * @param alarmData
+     */
+    public static void windDown(Context ctx, AlarmData alarmData) {
+
+        if (alarmData == null) {
+            return;
+        }
+
+        Intent intent = new Intent(ctx,
+                AlarmReceiver.class);
+        for (int id : alarmData.getIds()) {
+            PendingIntent sender = PendingIntent.getBroadcast(
+                    ctx, id, intent, 0);
+            AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
+            am.cancel(sender);
+        }
 
     }
 }

@@ -87,10 +87,10 @@ public class AlarmListActivity extends Activity {
         });
 
         //TODO 假数据
-        AlarmUtil.saveAlarm(this, new AlarmData("吃药", "药不能停...", 8, 0, false, "", new RepeatType(), true, true)
-                , new AlarmData("信用卡还贷", "药不能停...", 9, 0, false, "", new RepeatType(-1, -1, 28), true, true)
-                , new AlarmData("纪念日", "药不能停...", 10, 0, false, "", new RepeatType(2016, 6, 14), true, true)
-                , new AlarmData("起床", "药不能停...", 7, 45, false, "", new RepeatType(WeekDay.FRI, WeekDay.MON, WeekDay.WEN), true, true));
+        AlarmUtil.saveAlarm(this, new AlarmData("吃药", "药不能停...", 8, 0, false, "", new RepeatType(), true, true, new int[]{0})
+                , new AlarmData("信用卡还贷", "药不能停...", 9, 0, false, "", new RepeatType(-1, -1, 28), true, true, new int[]{1})
+                , new AlarmData("纪念日", "药不能停...", 10, 0, false, "", new RepeatType(2016, 6, 14), true, true, new int[]{2})
+                , new AlarmData("起床", "药不能停...", 7, 45, false, "", new RepeatType(WeekDay.FRI, WeekDay.MON, WeekDay.WEN), true, true, new int[]{3}));
 
         mAdapter = new AlarmAdapter(this);
         List<AlarmData> alarmDatas = AlarmUtil.getAlarms(this);
