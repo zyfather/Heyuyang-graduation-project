@@ -7,4 +7,6 @@ public class ConstantValue {
 
     public final static int repeatRequestCode = 0x11;
 
+    public final static String repeatKeyString = "repeatType";
+
 }

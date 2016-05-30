@@ -1,9 +1,11 @@
 package com.example.yang.myapplication.data;
 
+import java.io.Serializable;
+
 /**
  * Created by yang on 16/5/18.
  */
-public class RepeatType {
+public class RepeatType implements Serializable{
 
     public final static int EVERYDAY = 0x1;
     public final static int WEEKDAY = 0x2;

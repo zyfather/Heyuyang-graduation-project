@@ -1,13 +1,16 @@
 package com.example.yang.myapplication.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -35,6 +38,8 @@ public class EditActivity extends Activity {
     TextView saveTv;
 
     Button mDelete;
+
+    private RepeatType repeatType = new RepeatType();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +98,7 @@ public class EditActivity extends Activity {
                 String name = tagText.getText().toString();
                 String detail = (String) contentText.getText();
                 String ring = (String) ringText.getText();
-                RepeatType repeatType = new RepeatType();
+
 
                 SharedPreferences sp = EditActivity.this.getSharedPreferences(EditActivity.this.getString(R.string.alarm_info), 0);
                 int id = sp.getInt("id", 0);
@@ -111,9 +116,9 @@ public class EditActivity extends Activity {
                 ed.putInt("id", ids[ids.length - 1] + 1);
                 ed.commit();
 
-                AlarmUtil.saveAlarm(EditActivity.this, new AlarmData(name, detail, hou, min
-                                , false, ring, repeatType, true, true, ids)
-                );
+                AlarmData saveAlarm = new AlarmData(name, detail, hou, min
+                        , false, ring, repeatType, true, true, ids);
+                AlarmUtil.saveAlarm(EditActivity.this, saveAlarm);
                 setResult(RESULT_OK);
                 finish();
             }
@@ -130,9 +135,50 @@ public class EditActivity extends Activity {
             public void onClick(View v) {
                 startActivityForResult(new Intent(EditActivity.this, CustomUserDefinedActivity.class)
                         , ConstantValue.repeatRequestCode);
+            }
+        });
+
+        mTag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View dialogView = LayoutInflater.from(EditActivity.this).inflate(R.layout.dialog_tag, null);
+                AlertDialog.Builder builder
+                        = new AlertDialog.Builder(EditActivity.this);
+                final AlertDialog dialog = builder.setView(dialogView).create();
+                dialog.show();
+                TextView mid = (TextView) dialogView.findViewById(R.id.dialog_middle);
+                mid.setText("标签");
+                final EditText tag = (EditText) dialogView.findViewById(R.id.tag_et);
+                tag.setText(tagText.getText());
+                dialogView.findViewById(R.id.dialog_confirm).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        tagText.setText(tag.getText());
+                        dialog.dismiss();
+                    }
+                });
+                dialogView.findViewById(R.id.dialog_cancel).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
 
             }
         });
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == ConstantValue.repeatRequestCode) {
+                if (data.getSerializableExtra(ConstantValue.repeatKeyString) instanceof RepeatType) {
+                    repeatType = (RepeatType) data.getSerializableExtra(ConstantValue.repeatKeyString);
+                }
+            }
+        }
     }
 }

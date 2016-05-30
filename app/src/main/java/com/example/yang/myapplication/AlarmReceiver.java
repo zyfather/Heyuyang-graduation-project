@@ -15,10 +15,13 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+
+        AlarmData alarmData = (AlarmData) intent.getSerializableExtra("alarmData");
         //月经连锁设置
         if (intent.getBooleanExtra("isMonthDay", false)) {
-            AlarmData alarmData = (AlarmData) intent.getSerializableExtra("alarmData");
             AlarmUtil.windUp(context, alarmData);
+        } else {
+
         }
         Intent wake = new Intent(context, WakeUpActivity.class);
         wake.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

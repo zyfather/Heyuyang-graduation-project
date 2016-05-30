@@ -53,7 +53,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 ((ViewHolder) holder).itemView.setAlpha(1.0f);
                 ((ViewHolder) holder).mSwitch.setChecked(true);
             }
-            AlarmData data = mDatas.get(position);
+            final AlarmData data = mDatas.get(position);
             if (data != null) {
                 ((ViewHolder) holder).mTime.setText(data.getTimeStr());
                 ((ViewHolder) holder).mInfo.setText(data.getName() + ", " + data.getTypeStr());
@@ -70,10 +70,11 @@ public class AlarmAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         if (mDatas.get(position).isOn()) {
                             ((ViewHolder) holder).itemView.setAlpha(1.0f);
                             switchMap.put(position, false);
-
+                            AlarmUtil.windUp(mContext, data);
                         } else {
                             ((ViewHolder) holder).itemView.setAlpha(0.5f);
                             switchMap.put(position, true);
+                            AlarmUtil.windDown(mContext, data);
                         }
                         AlarmUtil.replaceAlarm(mContext, mDatas);
                     }

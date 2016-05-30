@@ -38,8 +38,10 @@ public class AlarmUtil {
             alarmDataList = new ArrayList<>();
         }
         SharedPreferences.Editor ed = sp.edit();
-        for (AlarmData data : alarmDatas)
+        for (AlarmData data : alarmDatas) {
             alarmDataList.add(data);
+            windUp(context, data);
+        }
         String dataStr = new Gson().toJson(alarmDataList);
         ed.putString("alarmsJson", dataStr);
         ed.commit();
@@ -60,6 +62,25 @@ public class AlarmUtil {
         ed.commit();
 
     }
+
+    /**
+     * 删除AlarmDatas
+     */
+    public static void deleteAlarm(Context context, AlarmData... alarmDatas) {
+        List<AlarmData> localList = getAlarms(context);
+        for (AlarmData alarmData : alarmDatas) {
+            int i = 0;
+            for (AlarmData localData : localList) {
+                if (localData.getIds()[0] == alarmData.getIds()[0]) {
+                    localList.remove(i);
+                    windDown(context, localData);
+                }
+                i++;
+            }
+        }
+        replaceAlarm(context, localList);
+    }
+
 
     /**
      * 读取AlarmDatas from json
@@ -111,6 +132,9 @@ public class AlarmUtil {
                     calendar.set(Calendar.HOUR_OF_DAY, hou);
                     calendar.set(Calendar.MINUTE, min);
                     INTERVAL = 1000 * 60 * 60 * 24;// 24h
+                    intent.putExtra("alarmData", alarmData);
+                    sender = PendingIntent.getBroadcast(
+                            ctx, id, intent, 0);
                     am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), INTERVAL, sender);
                     break;
                 case RepeatType.WEEKDAY:
@@ -119,6 +143,9 @@ public class AlarmUtil {
                         calendar.set(Calendar.HOUR, hou);
                         calendar.set(Calendar.MINUTE, min);
                         INTERVAL = 1000 * 60 * 60 * 24 * 7;// 7days
+                        intent.putExtra("alarmData", alarmData);
+                        sender = PendingIntent.getBroadcast(
+                                ctx, id, intent, 0);
                         am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), INTERVAL, sender);
                     }
                     break;
@@ -139,12 +166,18 @@ public class AlarmUtil {
                     calendar.set(Calendar.HOUR, hou);
                     calendar.set(Calendar.MINUTE, min);
                     INTERVAL = 1000 * 60 * 60 * 24 * 365;// 365days
+                    intent.putExtra("alarmData", alarmData);
+                    sender = PendingIntent.getBroadcast(
+                            ctx, id, intent, 0);
                     am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), INTERVAL, sender);
                     break;
                 case RepeatType.ONEDAY:
                     calendar.set(alarmData.getRepeatType().getYear(), alarmData.getRepeatType().getMonth(), alarmData.getRepeatType().getDay());
                     calendar.set(Calendar.HOUR, hou);
                     calendar.set(Calendar.MINUTE, min);
+                    intent.putExtra("alarmData", alarmData);
+                    sender = PendingIntent.getBroadcast(
+                            ctx, id, intent, 0);
                     am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), sender);
                     break;
 
@@ -165,7 +198,6 @@ public class AlarmUtil {
         if (alarmData == null) {
             return;
         }
-
         Intent intent = new Intent(ctx,
                 AlarmReceiver.class);
         for (int id : alarmData.getIds()) {
@@ -173,6 +205,18 @@ public class AlarmUtil {
                     ctx, id, intent, 0);
             AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
             am.cancel(sender);
+        }
+    }
+
+    /**
+     * 唤醒后
+     */
+    public static void afterWake(Context context, AlarmData alarmData) {
+
+        for (AlarmData localData : getAlarms(context)) {
+            if (localData.getIds()[0] == alarmData.getIds()[0]) {
+                localData.setSwitch();
+            }
         }
 
     }
