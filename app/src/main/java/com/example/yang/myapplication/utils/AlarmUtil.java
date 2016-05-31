@@ -88,6 +88,11 @@ public class AlarmUtil {
 
     }
 
+    /**
+     *
+     * @param context
+     * @param alarmData
+     */
     public static void updateAlarm(Context context, AlarmData alarmData) {
 
         updateAlarm(context, findAlarm(context, alarmData), alarmData);
