@@ -26,6 +26,25 @@ public enum WeekDay {
         return 0;
     }
 
+    public static WeekDay getValue(int i) {
+        switch (i) {
+            case 1:
+                return SUN;
+            case 2:
+                return MON;
+            case 3:
+                return TUE;
+            case 4:
+                return WEN;
+            case 5:
+                return THR;
+            case 6:
+                return FRI;
+            case 7:
+                return SAT;
+        }
+        return null;
+    }
     @Override
     public String toString() {
         switch (this) {

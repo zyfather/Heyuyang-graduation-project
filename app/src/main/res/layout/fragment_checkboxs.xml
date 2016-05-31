@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="vertical">
+
+    <CheckBox
+        android:id="@+id/checkbox_sunday"
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:text="@string/sunday"
+        android:textColor="@color/black"
+        android:textSize="13dp" />
+
+    <CheckBox
+        android:id="@+id/checkbox_monday"
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:text="@string/monday"
+        android:textColor="@color/black"
+        android:textSize="13dp" />
+
+    <CheckBox
+        android:id="@+id/checkbox_tuesday"
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:text="@string/tuesday"
+        android:textColor="@color/black"
+        android:textSize="13dp" />
+
+    <CheckBox
+        android:id="@+id/checkbox_wednesday"
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:text="@string/wednesday"
+        android:textColor="@color/black"
+        android:textSize="13dp" />
+
+    <CheckBox
+        android:id="@+id/checkbox_thursday"
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:text="@string/thursday"
+        android:textColor="@color/black"
+        android:textSize="13dp" />
+
+    <CheckBox
+        android:id="@+id/checkbox_friday"
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:text="@string/friday"
+        android:textColor="@color/black"
+        android:textSize="13dp" />
+
+    <CheckBox
+        android:id="@+id/checkbox_saturday"
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:text="@string/saturday"
+        android:textColor="@color/black"
+        android:textSize="13dp" />
+
+
+</LinearLayout>
