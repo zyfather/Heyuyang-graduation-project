@@ -185,7 +185,7 @@ public class EditActivity extends Activity {
                 if (isAdd) {
                     AlarmUtil.saveAlarm(EditActivity.this, saveAlarm);
                 } else {
-                    AlarmUtil.replaceAlarm(EditActivity.this, saveAlarm);
+                    AlarmUtil.updateAlarm(EditActivity.this, saveAlarm);
                 }
                 setResult(RESULT_OK);
                 finish();

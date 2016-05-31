@@ -6,6 +6,7 @@ import android.content.Intent;
 
 import com.example.yang.myapplication.activity.WakeUpActivity;
 import com.example.yang.myapplication.data.AlarmData;
+import com.example.yang.myapplication.data.RepeatType;
 import com.example.yang.myapplication.utils.AlarmUtil;
 
 /**
@@ -18,7 +19,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         AlarmData alarmData = (AlarmData) intent.getSerializableExtra("alarmData");
         //月经连锁设置
-        if (intent.getBooleanExtra("isMonthDay", false)) {
+        if (alarmData != null && alarmData.getRepeatType().getType() == RepeatType.MONTHDAY) {
             AlarmUtil.windUp(context, alarmData);
         }
         //close if not repeat

@@ -66,41 +66,73 @@ public class AlarmUtil {
     }
 
     /**
+     * 更新AlarmData
+     *
+     * @param context
+     * @param index
+     * @param newData
+     */
+    public static void updateAlarm(Context context, int index, AlarmData newData) {
+
+        List<AlarmData> localList = getAlarms(context);
+        if (newData == null) {
+            localList.remove(index);
+        } else {
+            localList.set(index, newData);
+        }
+        SharedPreferences sp = context.getSharedPreferences(context.getString(R.string.alarm_info), Context.MODE_APPEND);
+        SharedPreferences.Editor ed = sp.edit();
+        String dataStr = new Gson().toJson(Arrays.asList(localList));
+        ed.putString("alarmsJson", dataStr);
+        ed.commit();
+
+    }
+
+    public static void updateAlarm(Context context, AlarmData alarmData) {
+
+        updateAlarm(context, findAlarm(context, alarmData), alarmData);
+
+    }
+
+    /**
      * 删除AlarmDatas
      */
-    public static void deleteAlarm(Context context, AlarmData... alarmDatas) {
-        List<AlarmData> localList = getAlarms(context);
-        for (AlarmData alarmData : alarmDatas) {
-            int i = 0;
-            for (AlarmData localData : localList) {
-                if (localData.getIds()[0] == alarmData.getIds()[0]) {
-                    localList.remove(i);
-                    windDown(context, localData);
-                }
-                i++;
-            }
-        }
-        replaceAlarm(context, localList.toArray(new AlarmData[localList.size()]));
+    public static void deleteAlarm(Context context, AlarmData alarmData) {
+
+        windDown(context, alarmData);
+        updateAlarm(context, findAlarm(context, alarmData), null);
+
     }
 
     /**
      * close Alarm in json
      */
     public static void closeAlarm(Context context, AlarmData alarmData) {
+        if (alarmData != null) {
+            alarmData.setSwitch();
+            int index = findAlarm(context, alarmData);
+            updateAlarm(context, index, alarmData);
+        }
+    }
 
-        List<AlarmData> localList = getAlarms(context);
+    /**
+     * 查找AlarmData
+     *
+     * @param context
+     * @param alarmData
+     * @return
+     */
+    private static int findAlarm(Context context, AlarmData alarmData) {
         int i = 0;
-        for (AlarmData localAlarm : localList) {
-            if (alarmData.getIds()[0] == localAlarm.getIds()[0]) {
-                localList.get(i).setSwitch();
-                break;
+        for (AlarmData localData : getAlarms(context)) {
+            if (localData.getIds()[0] == alarmData.getIds()[0]) {
+                return i;
             }
             i++;
         }
-        saveAlarm(context, localList.toArray(new AlarmData[localList.size()]));
+        return -1;
 
     }
-
 
     /**
      * 读取AlarmDatas from json
@@ -150,13 +182,22 @@ public class AlarmUtil {
 
             switch (alarmData.getRepeatType().getType()) {
                 case RepeatType.EVERYDAY:
-                    calendar.set(Calendar.HOUR_OF_DAY, hou);
-                    calendar.set(Calendar.MINUTE, min);
-                    INTERVAL = 1000 * 60 * 60 * 24;// 24h
-                    intent.putExtra("alarmData", alarmData);
-                    sender = PendingIntent.getBroadcast(
-                            ctx, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                    am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), INTERVAL, sender);
+                    if (alarmData.isRepeat()) {
+                        calendar.set(Calendar.HOUR_OF_DAY, hou);
+                        calendar.set(Calendar.MINUTE, min);
+                        INTERVAL = 1000 * 60 * 60 * 24;// 24h
+                        intent.putExtra("alarmData", alarmData);
+                        sender = PendingIntent.getBroadcast(
+                                ctx, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), INTERVAL, sender);
+                    } else {
+                        calendar.set(Calendar.HOUR_OF_DAY, hou);
+                        calendar.set(Calendar.MINUTE, min);
+                        intent.putExtra("alarmData", alarmData);
+                        sender = PendingIntent.getBroadcast(
+                                ctx, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), sender);
+                    }
                     break;
                 case RepeatType.WEEKDAY:
                     for (WeekDay weekDay : alarmData.getRepeatType().getWeekDays()) {
@@ -179,7 +220,7 @@ public class AlarmUtil {
                     intent.putExtra("isMonthDay", true);
                     intent.putExtra("alarmData", alarmData);
                     sender = PendingIntent.getBroadcast(
-                            ctx, id, intent, 0);
+                            ctx, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                     am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), sender);
                     break;
                 case RepeatType.YEARDAY:
@@ -189,7 +230,7 @@ public class AlarmUtil {
                     INTERVAL = 1000 * 60 * 60 * 24 * 365;// 365days
                     intent.putExtra("alarmData", alarmData);
                     sender = PendingIntent.getBroadcast(
-                            ctx, id, intent, 0);
+                            ctx, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                     am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), INTERVAL, sender);
                     break;
                 case RepeatType.ONEDAY:
@@ -198,7 +239,7 @@ public class AlarmUtil {
                     calendar.set(Calendar.MINUTE, min);
                     intent.putExtra("alarmData", alarmData);
                     sender = PendingIntent.getBroadcast(
-                            ctx, id, intent, 0);
+                            ctx, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                     am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), sender);
                     break;
 
