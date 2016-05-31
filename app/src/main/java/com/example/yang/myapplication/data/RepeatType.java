@@ -20,9 +20,9 @@ public class RepeatType implements Serializable{
     private WeekDay[] weekDays = null;
 
     public RepeatType(int year, int month, int day) {
-        year = year;
-        month = month;
-        day = day;
+        this.year = year;
+        this.month = month;
+        this.day = day;
     }
 
     public RepeatType(WeekDay... weekDays) {

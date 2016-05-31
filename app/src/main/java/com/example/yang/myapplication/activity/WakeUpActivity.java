@@ -66,7 +66,7 @@ public class WakeUpActivity extends Activity {
 
     public void close(View view) {
 
-        if(mPlayer.isPlaying()) {
+        if (mPlayer != null && mPlayer.isPlaying()) {
             mPlayer.pause();
             mPlayer.stop();
             mPlayer.release();

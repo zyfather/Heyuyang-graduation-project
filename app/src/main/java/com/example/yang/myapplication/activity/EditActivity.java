@@ -23,6 +23,7 @@ import com.example.yang.myapplication.ConstantValue;
 import com.example.yang.myapplication.R;
 import com.example.yang.myapplication.data.AlarmData;
 import com.example.yang.myapplication.data.RepeatType;
+import com.example.yang.myapplication.data.WeekDay;
 import com.example.yang.myapplication.utils.AlarmUtil;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class EditActivity extends Activity {
     RelativeLayout mContent;
     RelativeLayout mRing;
 
-    TextView repeatText;
+    TextView repeatText;    //重复text
     TextView tagText;
     TextView contentText;
     TextView ringText;
@@ -122,7 +123,6 @@ public class EditActivity extends Activity {
                 String detail = contentText.getText().toString();
 //                String ring = ringText.getText().toString();
 
-
                 SharedPreferences sp = EditActivity.this.getSharedPreferences(EditActivity.this.getString(R.string.alarm_info), 0);
                 int id = sp.getInt("id", 0);
 
@@ -156,7 +156,7 @@ public class EditActivity extends Activity {
         mRepeat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(new Intent(EditActivity.this, CustomUserDefinedActivity.class)
+                startActivityForResult(new Intent(EditActivity.this, RepetActivity.class)
                         , ConstantValue.repeatRequestCode);
             }
         });
@@ -288,6 +288,23 @@ public class EditActivity extends Activity {
             if (requestCode == ConstantValue.repeatRequestCode) {
                 if (data.getSerializableExtra(ConstantValue.repeatKeyString) instanceof RepeatType) {
                     repeatType = (RepeatType) data.getSerializableExtra(ConstantValue.repeatKeyString);
+                    StringBuilder builder = new StringBuilder();
+                    if (RepeatType.WEEKDAY == repeatType.getType())   {
+                        WeekDay[] weekDays = repeatType.getWeekDays();
+                        for (int i=0;i<weekDays.length;i++){
+                            builder.append(weekDays[i].toString());
+                        }
+                    }
+                    if (RepeatType.MONTHDAY == repeatType.getType()){
+                        builder.append("每月" + repeatType.getDay());
+                    }
+                    if (RepeatType.YEARDAY == repeatType.getType()) {
+                        builder.append("纪念日").append(repeatType.getMonth()).append(".").append(repeatType.getDay());
+                    }
+                    if (RepeatType.ONEDAY == repeatType.getType()){
+                        builder.append(repeatType.getYear()).append(".").append(repeatType.getMonth()).append(".").append(repeatType.getDay());
+                    }
+                    repeatText.setText(builder);
                 }
             }
         }
