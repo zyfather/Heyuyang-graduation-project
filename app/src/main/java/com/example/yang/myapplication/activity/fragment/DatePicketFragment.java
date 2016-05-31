@@ -26,7 +26,7 @@ import java.util.List;
 public class DatePicketFragment extends Fragment {
     DatePicker mDatePicker;
 
-
+    List<NumberPicker> mNumberPickers;
     NumberPicker dayNumberPicker;
     NumberPicker monthNumberPicker;
     NumberPicker yearNumberPicker;
@@ -42,12 +42,18 @@ public class DatePicketFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_datepicker,container,false);
         mDatePicker = (DatePicker) v.findViewById(R.id.custom_user_defined_datepicker);
-        List<NumberPicker> mNumberPickers = findNumberPicker(mDatePicker);
-        initNumPicker(mNumberPickers);
+        mNumberPickers = findNumberPicker(mDatePicker);
+        initNumPicker();
         return v;
     }
 
-    private void initNumPicker(List<NumberPicker> mNumberPickers) {
+    @Override
+    public void onResume() {
+        super.onResume();
+        initNumPicker();
+    }
+
+    private void initNumPicker() {
         dayNumberPicker = mNumberPickers.get(2);
         monthNumberPicker = mNumberPickers.get(1);
         yearNumberPicker = mNumberPickers.get(0);

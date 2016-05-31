@@ -1,6 +1,7 @@
 package com.example.yang.myapplication.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -8,7 +9,10 @@ import android.view.Window;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.example.yang.myapplication.ConstantValue;
 import com.example.yang.myapplication.R;
+import com.example.yang.myapplication.data.RepeatType;
+import com.example.yang.myapplication.data.WeekDay;
 
 
 /**
@@ -47,6 +51,9 @@ public class RepetActivity extends Activity implements View.OnClickListener {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 Log.d(TAG,checkedId + "");
                 currentRadioButton = checkedId;
+                if (checkedId == R.id.radio_defineday){
+                    startActivityForResult(new Intent(RepetActivity.this,CustomUserDefinedActivity.class),ConstantValue.repeatDefineRequestCode);
+                }
             }
         });
 
@@ -56,26 +63,45 @@ public class RepetActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.title_right_tv:
-                finish();
+                submitData();
                 break;
             case R.id.title_left_tv:
-                submitData();
+                finish();
                 break;
         }
     }
 
     private void submitData() {
-        if (currentRadioButton == 0){
-
+        RepeatType repeatType = null;
+        if (currentRadioButton == R.id.radio_null){
+            repeatType = new RepeatType();
         }
-        if (currentRadioButton == 1){
-
+        if (currentRadioButton == R.id.radio_everyday){
+            repeatType = new RepeatType(WeekDay.SUN,WeekDay.MON,WeekDay.TUE,
+                    WeekDay.WEN,WeekDay.THR,WeekDay.FRI,WeekDay.SAT);
         }
-        if (currentRadioButton == 2){
-
+        if (currentRadioButton == R.id.radio_workday){
+            repeatType = new RepeatType(WeekDay.MON,WeekDay.TUE,
+                    WeekDay.WEN,WeekDay.THR,WeekDay.FRI);
         }
-        if (currentRadioButton == 3){
+        setResult(RESULT_OK,new Intent().putExtra(ConstantValue.repeatKeyString,repeatType));
+        finish();
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK){
+            if (requestCode  == ConstantValue.repeatDefineRequestCode){
+                if (data.getSerializableExtra(ConstantValue.repeatKeyString) instanceof RepeatType) {
+                    RepeatType repeatType = (RepeatType) data.getSerializableExtra(ConstantValue.repeatKeyString);
+                    setResult(RESULT_OK, new Intent().putExtra(ConstantValue.repeatKeyString, repeatType));
+                    finish();
+                }
+            }
+        }
+        if (resultCode == ConstantValue.resultCodeCancel){
+            finish();
         }
     }
 }

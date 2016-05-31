@@ -287,12 +287,16 @@ public class EditActivity extends Activity {
         if (resultCode == RESULT_OK) {
             if (requestCode == ConstantValue.repeatRequestCode) {
                 if (data.getSerializableExtra(ConstantValue.repeatKeyString) instanceof RepeatType) {
-                    repeatType = (RepeatType) data.getSerializableExtra(ConstantValue.repeatKeyString);
+                        repeatType = (RepeatType) data.getSerializableExtra(ConstantValue.repeatKeyString);
                     StringBuilder builder = new StringBuilder();
                     if (RepeatType.WEEKDAY == repeatType.getType())   {
                         WeekDay[] weekDays = repeatType.getWeekDays();
-                        for (int i=0;i<weekDays.length;i++){
-                            builder.append(weekDays[i].toString());
+                        if (weekDays.length == 7){
+                            builder.append(getResources().getString(R.string.every));
+                        }else {
+                            for (int i = 0; i < weekDays.length; i++) {
+                                builder.append(weekDays[i].toString());
+                            }
                         }
                     }
                     if (RepeatType.MONTHDAY == repeatType.getType()){

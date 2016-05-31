@@ -85,6 +85,7 @@ public class CustomUserDefinedActivity extends FragmentActivity implements View.
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.title_left_tv:
+                setResult(ConstantValue.resultCodeCancel,new Intent());
                 finish();
                 break;
             case R.id.title_right_tv:

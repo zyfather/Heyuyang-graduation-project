@@ -9,9 +9,9 @@
 
     <android.support.v4.view.ViewPager
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="300dp"
         android:id="@+id/custom_user_defined_viewpager"
-        android:layout_below="@id/custom_user_defined_title"
+        android:layout_centerInParent="true"
         android:layout_marginBottom="50dp"/>
 
     <LinearLayout
@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="10dp"
         android:layout_alignParentBottom="true">
 
         <TextView
