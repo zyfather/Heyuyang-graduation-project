@@ -1,25 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/title">
+    style="@style/title"
+    android:orientation="vertical"
+    >
 
     <include
         android:id="@+id/custom_user_defined_title"
         layout="@layout/view_title"></include>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/gray"/>
+
     <android.support.v4.view.ViewPager
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="0dp"
+        android:layout_weight="3"
         android:id="@+id/custom_user_defined_viewpager"
         android:layout_centerInParent="true"
-        android:layout_marginBottom="50dp"/>
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/gray"/>
 
     <LinearLayout
+        android:background="@color/blackground"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="10dp"
         android:gravity="center"
-        android:layout_marginBottom="10dp"
+
         android:layout_alignParentBottom="true">
 
         <TextView
@@ -46,4 +62,4 @@
 
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

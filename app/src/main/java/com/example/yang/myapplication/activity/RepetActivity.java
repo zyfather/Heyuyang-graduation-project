@@ -80,6 +80,9 @@ public class RepetActivity extends Activity implements View.OnClickListener {
             repeatType = new RepeatType(WeekDay.SUN,WeekDay.MON,WeekDay.TUE,
                     WeekDay.WEN,WeekDay.THR,WeekDay.FRI,WeekDay.SAT);
         }
+        if (currentRadioButton == R.id.radio_weekend){
+            repeatType = new RepeatType(WeekDay.SUN,WeekDay.SAT);
+        }
         if (currentRadioButton == R.id.radio_workday){
             repeatType = new RepeatType(WeekDay.MON,WeekDay.TUE,
                     WeekDay.WEN,WeekDay.THR,WeekDay.FRI);
