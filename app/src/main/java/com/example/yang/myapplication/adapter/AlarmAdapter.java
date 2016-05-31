@@ -1,15 +1,16 @@
 package com.example.yang.myapplication.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.yang.myapplication.R;
+import com.example.yang.myapplication.activity.EditActivity;
 import com.example.yang.myapplication.data.AlarmData;
 import com.example.yang.myapplication.utils.AlarmUtil;
 
@@ -56,7 +57,11 @@ public class AlarmAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             final AlarmData data = mDatas.get(position);
             if (data != null) {
                 ((ViewHolder) holder).mTime.setText(data.getTimeStr());
-                ((ViewHolder) holder).mInfo.setText(data.getName() + ", " + data.getTypeStr());
+                String displayStr = data.getName();
+                if (data.isRepeat()) {
+                    displayStr += ", " + data.getTypeStr();
+                }
+                ((ViewHolder) holder).mInfo.setText(displayStr);
                 if (data.isOn()) {
                     ((ViewHolder) holder).mSwitch.setChecked(true);
                 } else {
@@ -76,24 +81,26 @@ public class AlarmAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                             switchMap.put(position, true);
                             AlarmUtil.windDown(mContext, data);
                         }
-                        AlarmUtil.replaceAlarm(mContext, mDatas);
+                        AlarmUtil.replaceAlarm(mContext, mDatas.toArray(new AlarmData[mDatas.size()]));
                     }
                 });
                 ((ViewHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         //TODO 跳转编辑
-                        Toast.makeText(mContext, "编辑", Toast.LENGTH_SHORT).show();
+                        Intent toEdit = new Intent(mContext, EditActivity.class);
+                        toEdit.putExtra("editAlarm", data);
+                        mContext.startActivity(toEdit);
                     }
                 });
-                ((ViewHolder) holder).itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View v) {
-                        mDatas.remove(position);
-                        notifyDataSetChanged();
-                        return true;
-                    }
-                });
+//                ((ViewHolder) holder).itemView.setOnLongClickListener(new View.OnLongClickListener() {
+//                    @Override
+//                    public boolean onLongClick(View v) {
+//                        mDatas.remove(position);
+//                        notifyDataSetChanged();
+//                        return true;
+//                    }
+//                });
             }
 
 

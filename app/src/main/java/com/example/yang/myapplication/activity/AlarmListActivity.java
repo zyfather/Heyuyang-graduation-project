@@ -1,8 +1,6 @@
 package com.example.yang.myapplication.activity;
 
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,14 +10,11 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.yang.myapplication.AlarmReceiver;
 import com.example.yang.myapplication.R;
 import com.example.yang.myapplication.adapter.AlarmAdapter;
 import com.example.yang.myapplication.data.AlarmData;
 import com.example.yang.myapplication.utils.AlarmUtil;
 
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -58,20 +53,21 @@ public class AlarmListActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                AlarmUtil.replaceAlarm(AlarmListActivity.this, new ArrayList<AlarmData>());
+                AlarmUtil.replaceAlarm(AlarmListActivity.this, new AlarmData[]{});
                 List<AlarmData> alarmDatas = AlarmUtil.getAlarms(AlarmListActivity.this);
                 mAdapter.setmDatas(alarmDatas);
 
-                Intent intent = new Intent(AlarmListActivity.this, AlarmReceiver.class);
-                PendingIntent sender = PendingIntent.getBroadcast(
-                        AlarmListActivity.this, 0, intent, 0);
-
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTimeInMillis(System.currentTimeMillis());
-                calendar.add(Calendar.SECOND, 3);
-
-                AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
-                am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), sender);
+//
+//                Intent intent = new Intent(AlarmListActivity.this, AlarmReceiver.class);
+//                PendingIntent sender = PendingIntent.getBroadcast(
+//                        AlarmListActivity.this, 0, intent, 0);
+//
+//                Calendar calendar = Calendar.getInstance();
+//                calendar.setTimeInMillis(System.currentTimeMillis());
+//                calendar.add(Calendar.SECOND, 3);
+//
+//                AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+//                am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), sender);
 
             }
         });
@@ -95,7 +91,14 @@ public class AlarmListActivity extends Activity {
         mAlarmList.setAdapter(mAdapter);
         mAdapter.setmDatas(alarmDatas);
 
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mAdapter != null) {
+            mAdapter.setmDatas(AlarmUtil.getAlarms(this));
+        }
     }
 
     @Override

@@ -9,4 +9,6 @@ public class ConstantValue {
 
     public final static String repeatKeyString = "repeatType";
 
+    public final static String ACTION_RECEIVER = "WAKE_ALARM";
+
 }

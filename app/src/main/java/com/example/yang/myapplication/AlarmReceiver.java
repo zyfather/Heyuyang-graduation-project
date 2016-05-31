@@ -20,8 +20,10 @@ public class AlarmReceiver extends BroadcastReceiver {
         //月经连锁设置
         if (intent.getBooleanExtra("isMonthDay", false)) {
             AlarmUtil.windUp(context, alarmData);
-        } else {
-
+        }
+        //close if not repeat
+        if (!alarmData.isRepeat()) {
+            AlarmUtil.closeAlarm(context, alarmData);
         }
         Intent wake = new Intent(context, WakeUpActivity.class);
         wake.putExtra("alarmData", alarmData);

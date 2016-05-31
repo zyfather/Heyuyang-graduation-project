@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 
 import com.example.yang.myapplication.AlarmReceiver;
+import com.example.yang.myapplication.ConstantValue;
 import com.example.yang.myapplication.R;
 import com.example.yang.myapplication.data.AlarmData;
 import com.example.yang.myapplication.data.RepeatType;
@@ -16,6 +17,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -50,14 +52,14 @@ public class AlarmUtil {
     /**
      * 替换AlarmDatas
      */
-    public static void replaceAlarm(Context context, List<AlarmData> alarmDataList) {
+    public static void replaceAlarm(Context context, AlarmData... alarmDatas) {
 
-        if (alarmDataList == null) {
+        if (alarmDatas == null) {
             return;
         }
         SharedPreferences sp = context.getSharedPreferences(context.getString(R.string.alarm_info), Context.MODE_APPEND);
         SharedPreferences.Editor ed = sp.edit();
-        String dataStr = new Gson().toJson(alarmDataList);
+        String dataStr = new Gson().toJson(Arrays.asList(alarmDatas));
         ed.putString("alarmsJson", dataStr);
         ed.commit();
 
@@ -78,7 +80,25 @@ public class AlarmUtil {
                 i++;
             }
         }
-        replaceAlarm(context, localList);
+        replaceAlarm(context, localList.toArray(new AlarmData[localList.size()]));
+    }
+
+    /**
+     * close Alarm in json
+     */
+    public static void closeAlarm(Context context, AlarmData alarmData) {
+
+        List<AlarmData> localList = getAlarms(context);
+        int i = 0;
+        for (AlarmData localAlarm : localList) {
+            if (alarmData.getIds()[0] == localAlarm.getIds()[0]) {
+                localList.get(i).setSwitch();
+                break;
+            }
+            i++;
+        }
+        saveAlarm(context, localList.toArray(new AlarmData[localList.size()]));
+
     }
 
 
@@ -112,6 +132,7 @@ public class AlarmUtil {
         int INTERVAL;
 
         Intent intent = new Intent(ctx, AlarmReceiver.class);
+        intent.setAction(ConstantValue.ACTION_RECEIVER);
 
         for (int id : ids) {
 
@@ -134,7 +155,7 @@ public class AlarmUtil {
                     INTERVAL = 1000 * 60 * 60 * 24;// 24h
                     intent.putExtra("alarmData", alarmData);
                     sender = PendingIntent.getBroadcast(
-                            ctx, id, intent, 0);
+                            ctx, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                     am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), INTERVAL, sender);
                     break;
                 case RepeatType.WEEKDAY:
@@ -145,7 +166,7 @@ public class AlarmUtil {
                         INTERVAL = 1000 * 60 * 60 * 24 * 7;// 7days
                         intent.putExtra("alarmData", alarmData);
                         sender = PendingIntent.getBroadcast(
-                                ctx, id, intent, 0);
+                                ctx, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                         am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), INTERVAL, sender);
                     }
                     break;

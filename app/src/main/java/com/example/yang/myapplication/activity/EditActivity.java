@@ -50,12 +50,20 @@ public class EditActivity extends Activity {
     private RepeatType repeatType = new RepeatType();
     private List<String> sysRings;
     private int currentRing;
+    private boolean isRepeat;
+
+    private boolean isAdd;
+    private AlarmData saveAlarm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
         setContentView(R.layout.activity_edit);
+
+        if ((saveAlarm = (AlarmData) getIntent().getSerializableExtra("editAlarm")) == null) {
+            isAdd = true;
+        }
         initViews();
     }
 
@@ -67,7 +75,11 @@ public class EditActivity extends Activity {
         findViewById(R.id.title_right_iv).setVisibility(View.GONE);
 
         cancelTv.setText("取消");
-        middleTv.setText("添加");  //TODO 判断
+        if (isAdd) {
+            middleTv.setText("添加");
+        } else {
+            middleTv.setText("编辑");
+        }
         saveTv.setText("存储");
 
         mTimePicker = (TimePicker) findViewById(R.id.edit_time_picker);
@@ -83,10 +95,31 @@ public class EditActivity extends Activity {
         contentText = (TextView) findViewById(R.id.tv_content);
         ringText = (TextView) findViewById(R.id.tv_ring);
 
+        initRing();
+
+        if (!isAdd) {
+            fillData();
+        }
 
         initClick();
 
-        initRing();
+    }
+
+    private void fillData() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            mTimePicker.setHour(saveAlarm.getHour());
+            mTimePicker.setMinute(saveAlarm.getMinute());
+        } else {
+            mTimePicker.setCurrentHour(saveAlarm.getHour());
+            mTimePicker.setCurrentMinute(saveAlarm.getMinute());
+        }
+        if (saveAlarm.isRepeat()) {
+            repeatText.setText(saveAlarm.getTypeStr());
+        }
+        tagText.setText(saveAlarm.getName());
+        contentText.setText(saveAlarm.getDetails());
+        ringText.setText(sysRings.get(saveAlarm.getRing()));
+        currentRing = saveAlarm.getRing();
 
     }
 
@@ -104,7 +137,16 @@ public class EditActivity extends Activity {
 
     private void initClick() {
 
-        //TODO delete 判断
+        if (!isAdd) {
+            mDelete = (Button) findViewById(R.id.edit_delete);
+            mDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlarmUtil.deleteAlarm(EditActivity.this, saveAlarm);
+                    finish();
+                }
+            });
+        }
 
         saveTv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,7 +164,6 @@ public class EditActivity extends Activity {
                 String name = tagText.getText().toString();
                 String detail = contentText.getText().toString();
 //                String ring = ringText.getText().toString();
-
                 SharedPreferences sp = EditActivity.this.getSharedPreferences(EditActivity.this.getString(R.string.alarm_info), 0);
                 int id = sp.getInt("id", 0);
 
@@ -139,9 +180,13 @@ public class EditActivity extends Activity {
                 ed.putInt("id", ids[ids.length - 1] + 1);
                 ed.commit();
 
-                AlarmData saveAlarm = new AlarmData(name, detail, hou, min
-                        , false, currentRing, repeatType, true, true, ids);
-                AlarmUtil.saveAlarm(EditActivity.this, saveAlarm);
+                saveAlarm = new AlarmData(name, detail, hou, min
+                        , false, currentRing, repeatType, true, isRepeat, ids);
+                if (isAdd) {
+                    AlarmUtil.saveAlarm(EditActivity.this, saveAlarm);
+                } else {
+                    AlarmUtil.replaceAlarm(EditActivity.this, saveAlarm);
+                }
                 setResult(RESULT_OK);
                 finish();
             }
@@ -289,19 +334,19 @@ public class EditActivity extends Activity {
                 if (data.getSerializableExtra(ConstantValue.repeatKeyString) instanceof RepeatType) {
                     repeatType = (RepeatType) data.getSerializableExtra(ConstantValue.repeatKeyString);
                     StringBuilder builder = new StringBuilder();
-                    if (RepeatType.WEEKDAY == repeatType.getType())   {
+                    if (RepeatType.WEEKDAY == repeatType.getType()) {
                         WeekDay[] weekDays = repeatType.getWeekDays();
-                        for (int i=0;i<weekDays.length;i++){
+                        for (int i = 0; i < weekDays.length; i++) {
                             builder.append(weekDays[i].toString());
                         }
                     }
-                    if (RepeatType.MONTHDAY == repeatType.getType()){
+                    if (RepeatType.MONTHDAY == repeatType.getType()) {
                         builder.append("每月" + repeatType.getDay());
                     }
                     if (RepeatType.YEARDAY == repeatType.getType()) {
                         builder.append("纪念日").append(repeatType.getMonth()).append(".").append(repeatType.getDay());
                     }
-                    if (RepeatType.ONEDAY == repeatType.getType()){
+                    if (RepeatType.ONEDAY == repeatType.getType()) {
                         builder.append(repeatType.getYear()).append(".").append(repeatType.getMonth()).append(".").append(repeatType.getDay());
                     }
                     repeatText.setText(builder);

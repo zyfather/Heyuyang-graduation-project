@@ -41,7 +41,7 @@
             android:padding="10dp"
             android:text="重复"
             android:textColor="@color/black"
-            android:textSize="25sp" />
+            android:textSize="20sp" />
 
         <ImageView
             android:id="@+id/repeat_right"
@@ -64,7 +64,7 @@
             android:singleLine="true"
             android:text="无"
             android:textColor="@color/gray"
-            android:textSize="25sp" />
+            android:textSize="20sp" />
 
 
     </RelativeLayout>
@@ -82,7 +82,7 @@
             android:padding="10dp"
             android:text="标签"
             android:textColor="@color/black"
-            android:textSize="25sp" />
+            android:textSize="20sp" />
 
         <ImageView
             android:id="@+id/tag_arrow"
@@ -105,7 +105,7 @@
             android:singleLine="true"
             android:text="无"
             android:textColor="@color/gray"
-            android:textSize="25sp" />
+            android:textSize="20sp" />
 
 
     </RelativeLayout>
@@ -123,7 +123,7 @@
             android:padding="10dp"
             android:text="内容"
             android:textColor="@color/black"
-            android:textSize="25sp" />
+            android:textSize="20sp" />
 
         <ImageView
             android:id="@+id/content_arrow"
@@ -146,7 +146,7 @@
             android:singleLine="true"
             android:text="无"
             android:textColor="@color/gray"
-            android:textSize="25sp" />
+            android:textSize="20sp" />
 
 
     </RelativeLayout>
@@ -164,7 +164,7 @@
             android:padding="10dp"
             android:text="铃声"
             android:textColor="@color/black"
-            android:textSize="25sp" />
+            android:textSize="20sp" />
 
         <ImageView
             android:id="@+id/ring_arrow"
@@ -187,7 +187,7 @@
             android:singleLine="true"
             android:text="无"
             android:textColor="@color/gray"
-            android:textSize="25sp" />
+            android:textSize="20sp" />
 
 
     </RelativeLayout>
@@ -206,6 +206,12 @@
         android:background="@color/white"
         android:text="删除"
         android:textColor="@color/title_red"
+        android:textSize="25sp"
         android:visibility="gone" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/list_bg" />
 
 </LinearLayout>

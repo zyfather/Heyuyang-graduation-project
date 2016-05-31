@@ -39,24 +39,25 @@ public class WakeUpActivity extends Activity {
         if (alarmData != null) {
             mTag.setText(alarmData.getName());
             mContent.setText(alarmData.getDetails());
-
-            RingtoneManager manager = new RingtoneManager(WakeUpActivity.this);
-            manager.setType(RingtoneManager.TYPE_ALARM);
-            Uri ringUri = manager.getRingtoneUri(alarmData.getRing());
-
-            mPlayer = MediaPlayer.create(WakeUpActivity.this, ringUri);
-            try {
-                mPlayer.prepare();
-                mPlayer.start();
-            } catch (IOException e) {
-                Toast.makeText(WakeUpActivity.this, "ring error", Toast.LENGTH_SHORT).show();
-                finish();
-            }
+            //playRing(alarmData);
         }
-
         wakeUpAndUnlock(this);
-
         //AlarmUtil.windDown(this, alarmData);
+    }
+
+    private void playRing(AlarmData alarmData) {
+        RingtoneManager manager = new RingtoneManager(WakeUpActivity.this);
+        manager.setType(RingtoneManager.TYPE_ALARM);
+        Uri ringUri = manager.getRingtoneUri(alarmData.getRing());
+
+        mPlayer = MediaPlayer.create(WakeUpActivity.this, ringUri);
+        try {
+            mPlayer.prepare();
+            mPlayer.start();
+        } catch (IOException e) {
+            Toast.makeText(WakeUpActivity.this, "ring error", Toast.LENGTH_SHORT).show();
+            finish();
+        }
     }
 
     private void initViews() {

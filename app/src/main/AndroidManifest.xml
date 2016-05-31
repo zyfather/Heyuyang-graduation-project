@@ -27,9 +27,13 @@
         </activity>
         <activity android:name=".activity.CustomUserDefinedActivity" />
         <activity android:name=".activity.WakeUpActivity" />
-        <activity android:name=".activity.RepetActivity"/>
+        <activity android:name=".activity.RepetActivity" />
 
-        <receiver android:name=".AlarmReceiver" />
+        <receiver android:name=".AlarmReceiver">
+            <intent-filter>
+                <action android:name="WAKE_ALARM" />
+            </intent-filter>
+        </receiver>
 
         <activity android:name=".activity.EditActivity"></activity>
     </application>
