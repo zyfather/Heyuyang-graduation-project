@@ -96,6 +96,7 @@ public class AlarmUtil {
      */
     public static void updateAlarm(Context context, AlarmData alarmData) {
 
+        windDown(context, alarmData);
         updateAlarm(context, findAlarm(context, alarmData), alarmData);
 
     }

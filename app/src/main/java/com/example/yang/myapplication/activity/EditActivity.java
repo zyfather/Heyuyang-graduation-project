@@ -349,7 +349,7 @@ public class EditActivity extends Activity {
                             }
                             break;
                         case RepeatType.MONTHDAY:
-                            builder.append("每月" + repeatType.getDay());
+                            builder.append("每月" + repeatType.getDay() + "日");
                             break;
                         case RepeatType.YEARDAY:
                             builder.append("纪念日").append(repeatType.getMonth()).append(".").append(repeatType.getDay());
