@@ -34,26 +34,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="875b5ff7-027b-43f8-897e-5e9cb3c1f799" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/yang/myapplication/activity/RepetActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/yang/myapplication/activity/RepeatActivity.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/yang/myapplication/activity/fragment/DatePicketFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/yang/myapplication/activity/fragment/DatePickerFragment.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_repet.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_repeat.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/cache.properties.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileSnapshots.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/outputFileStates.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/outputFileStates.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/taskArtifacts.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" afterPath="$PROJECT_DIR$/.gradle/2.10/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" afterPath="$PROJECT_DIR$/.gradle/2.10/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/yang/myapplication/activity/CustomUserDefinedActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/yang/myapplication/activity/CustomUserDefinedActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/yang/myapplication/activity/EditActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/yang/myapplication/activity/EditActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/yang/myapplication/adapter/AlarmAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/yang/myapplication/adapter/AlarmAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/yang/myapplication/data/RepeatType.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/yang/myapplication/data/RepeatType.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/yang/myapplication/utils/AlarmUtil.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/yang/myapplication/utils/AlarmUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_edit.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_edit.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/view_alarm_item.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/view_alarm_item.xml" />
     </list>
     <list id="b5d387e5-3d6f-4f1e-bcef-1455cdba2de5" name="Rejected commit: Default" comment="test git" />
     <list id="30d245a9-ddf9-4125-99a9-76babc78d4a8" name="Rejected commit: Default (2)" comment="test git" />
@@ -118,11 +106,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AlarmUtil.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="AlarmUtil.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/yang/myapplication/utils/AlarmUtil.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="41" column="43" selection-start-line="41" selection-start-column="43" selection-end-line="41" selection-end-column="43" />
+            <state vertical-scroll-proportion="0.28865978">
+              <caret line="277" column="61" selection-start-line="277" selection-start-column="61" selection-end-line="277" selection-end-column="61" />
               <folding>
                 <element signature="e#4205#4243#0" expanded="true" />
               </folding>
@@ -143,10 +131,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AlarmAdapter.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="AlarmAdapter.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/yang/myapplication/adapter/AlarmAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="3.882732">
+            <state vertical-scroll-proportion="0.0">
               <caret line="167" column="30" selection-start-line="167" selection-start-column="30" selection-end-line="167" selection-end-column="30" />
               <folding />
             </state>
@@ -1825,8 +1813,8 @@
         <option value="$PROJECT_DIR$/app/src/main/res/values/styles.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/yang/myapplication/activity/fragment/DatePickerFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/yang/myapplication/activity/CustomUserDefinedActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/yang/myapplication/utils/AlarmUtil.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/yang/myapplication/adapter/AlarmAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/yang/myapplication/utils/AlarmUtil.java" />
       </list>
     </option>
   </component>
@@ -2716,7 +2704,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32919255" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -2733,7 +2721,7 @@
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2765043" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2765043" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32919255" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -3208,16 +3196,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/yang/myapplication/utils/AlarmUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="41" column="43" selection-start-line="41" selection-start-column="43" selection-end-line="41" selection-end-column="43" />
-          <folding>
-            <element signature="e#4205#4243#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/yang/myapplication/activity/fragment/DatePickerFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -3239,9 +3217,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/yang/myapplication/adapter/AlarmAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="3.882732">
+        <state vertical-scroll-proportion="0.0">
           <caret line="167" column="30" selection-start-line="167" selection-start-column="30" selection-end-line="167" selection-end-column="30" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/yang/myapplication/utils/AlarmUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.28865978">
+          <caret line="277" column="61" selection-start-line="277" selection-start-column="61" selection-end-line="277" selection-end-column="61" />
+          <folding>
+            <element signature="e#4205#4243#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

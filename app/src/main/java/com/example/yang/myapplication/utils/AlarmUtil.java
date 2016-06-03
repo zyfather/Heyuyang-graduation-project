@@ -174,8 +174,7 @@ public class AlarmUtil {
 
         for (int id : ids) {
 
-            PendingIntent sender = PendingIntent.getBroadcast(
-                    ctx, id, intent, 0);
+            PendingIntent sender;
 
             AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
 
@@ -276,8 +275,8 @@ public class AlarmUtil {
         if (alarmData == null) {
             return;
         }
-        Intent intent = new Intent(ctx,
-                AlarmReceiver.class);
+        Intent intent = new Intent(ctx, AlarmReceiver.class);
+        intent.setAction(ConstantValue.ACTION_RECEIVER);
         for (int id : alarmData.getIds()) {
             PendingIntent sender = PendingIntent.getBroadcast(
                     ctx, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
