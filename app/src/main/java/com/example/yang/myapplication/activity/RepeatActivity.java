@@ -3,7 +3,6 @@ package com.example.yang.myapplication.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.RadioGroup;
@@ -18,9 +17,8 @@ import com.example.yang.myapplication.data.WeekDay;
 /**
  * Created by yang on 16/5/31.
  */
-public class RepetActivity extends Activity implements View.OnClickListener {
+public class RepeatActivity extends Activity implements View.OnClickListener {
 
-    public static String TAG = "RepetActivity";
     TextView leftTv;
     TextView middleTv;
     TextView rightTv;
@@ -32,7 +30,7 @@ public class RepetActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
-        setContentView(R.layout.activity_repet);
+        setContentView(R.layout.activity_repeat);
 
         leftTv = (TextView) findViewById(R.id.title_left_tv);
         middleTv = (TextView) findViewById(R.id.title_middle_tv);
@@ -49,10 +47,9 @@ public class RepetActivity extends Activity implements View.OnClickListener {
 
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                Log.d(TAG,checkedId + "");
                 currentRadioButton = checkedId;
                 if (checkedId == R.id.radio_defineday){
-                    startActivityForResult(new Intent(RepetActivity.this,CustomUserDefinedActivity.class),ConstantValue.repeatDefineRequestCode);
+                    startActivityForResult(new Intent(RepeatActivity.this,CustomUserDefinedActivity.class),ConstantValue.repeatDefineRequestCode);
                 }
             }
         });

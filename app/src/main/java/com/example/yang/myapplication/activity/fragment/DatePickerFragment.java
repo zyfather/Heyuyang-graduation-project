@@ -24,7 +24,7 @@ import java.util.List;
  * Created by mingjobo on 2016/5/30.
  */
 
-public class DatePicketFragment extends Fragment {
+public class DatePickerFragment extends Fragment {
     DatePicker mDatePicker;
 
     List<NumberPicker> mNumberPickers;
@@ -45,7 +45,7 @@ public class DatePicketFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_datepicker,container,false);
+        View v = inflater.inflate(R.layout.fragment_datepicker, container, false);
         mDatePicker = (DatePicker) v.findViewById(R.id.custom_user_defined_datepicker);
 
         year = (TextView) v.findViewById(R.id.tv_year);
@@ -72,14 +72,14 @@ public class DatePicketFragment extends Fragment {
     private List<NumberPicker> findNumberPicker(ViewGroup v) {
         List<NumberPicker> numberPickerList = new ArrayList<NumberPicker>();
         View child = null;
-        if (v != null){
-            for (int i = 0; i < v.getChildCount();i++){
+        if (v != null) {
+            for (int i = 0; i < v.getChildCount(); i++) {
                 child = v.getChildAt(i);
-                if (child instanceof NumberPicker){
+                if (child instanceof NumberPicker) {
                     numberPickerList.add((NumberPicker) child);
-                }else if(child instanceof LinearLayout){
+                } else if (child instanceof LinearLayout) {
                     List<NumberPicker> result = findNumberPicker((ViewGroup) child);
-                    if (result.size() > 0){
+                    if (result.size() > 0) {
                         return result;
                     }
                 }
@@ -88,25 +88,25 @@ public class DatePicketFragment extends Fragment {
         return numberPickerList;
     }
 
-    public void disappleMouthNum(){
+    public void disappearMouthNum() {
         month.setVisibility(View.GONE);
         monthNumberPicker.setVisibility(View.GONE);
     }
-    public void disappleYearNum(){
+
+    public void disappearYearNum() {
         day.setVisibility(View.GONE);
         yearNumberPicker.setVisibility(View.GONE);
     }
 
-    public int getYear(){
-        int i =  mDatePicker.getYear();
-        return i;
+    public int getYear() {
+        return mDatePicker.getYear();
     }
 
-    public int getmonth(){
+    public int getMonth() {
         return mDatePicker.getMonth();
     }
 
-    public int getday() {
+    public int getDay() {
         return mDatePicker.getDayOfMonth();
     }
 }

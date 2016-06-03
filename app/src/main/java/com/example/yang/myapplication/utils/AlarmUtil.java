@@ -249,10 +249,14 @@ public class AlarmUtil {
                     calendar.set(alarmData.getRepeatType().getYear(), alarmData.getRepeatType().getMonth(), alarmData.getRepeatType().getDay());
                     calendar.set(Calendar.HOUR, hou);
                     calendar.set(Calendar.MINUTE, min);
-                    intent.putExtra("alarmData", alarmData);
-                    sender = PendingIntent.getBroadcast(
-                            ctx, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                    am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), sender);
+                    if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
+                        //TODO 设置过期的闹钟
+                    } else {
+                        intent.putExtra("alarmData", alarmData);
+                        sender = PendingIntent.getBroadcast(
+                                ctx, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), sender);
+                    }
                     break;
 
             }
@@ -276,7 +280,7 @@ public class AlarmUtil {
                 AlarmReceiver.class);
         for (int id : alarmData.getIds()) {
             PendingIntent sender = PendingIntent.getBroadcast(
-                    ctx, id, intent, 0);
+                    ctx, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
             am.cancel(sender);
         }

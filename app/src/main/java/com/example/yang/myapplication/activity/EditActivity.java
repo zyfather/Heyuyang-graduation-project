@@ -179,6 +179,8 @@ public class EditActivity extends Activity {
                 ed.putInt("id", ids[ids.length - 1] + 1);
                 ed.commit();
 
+                isRepeat = repeatText.getText().length() > 1;
+
                 if (isAdd) {
                     saveAlarm = new AlarmData(name, detail, hou, min
                             , false, currentRing, repeatType, true, isRepeat, ids);
@@ -202,7 +204,7 @@ public class EditActivity extends Activity {
         mRepeat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(new Intent(EditActivity.this, RepetActivity.class)
+                startActivityForResult(new Intent(EditActivity.this, RepeatActivity.class)
                         , ConstantValue.repeatRequestCode);
             }
         });
@@ -335,22 +337,29 @@ public class EditActivity extends Activity {
                 if (data.getSerializableExtra(ConstantValue.repeatKeyString) instanceof RepeatType) {
                     repeatType = (RepeatType) data.getSerializableExtra(ConstantValue.repeatKeyString);
                     StringBuilder builder = new StringBuilder();
-                    if (RepeatType.WEEKDAY == repeatType.getType()) {
-                        WeekDay[] weekDays = repeatType.getWeekDays();
-                        for (int i = 0; i < weekDays.length; i++) {
-                            builder.append(weekDays[i].toString());
-                        }
-                    }
-                    if (RepeatType.MONTHDAY == repeatType.getType()) {
-                        builder.append("每月" + repeatType.getDay());
-                    }
-                    if (RepeatType.YEARDAY == repeatType.getType()) {
-                        builder.append("纪念日").append(repeatType.getMonth()).append(".").append(repeatType.getDay());
-                    }
-                    if (RepeatType.ONEDAY == repeatType.getType()) {
-                        builder.append(repeatType.getYear()).append(".").append(repeatType.getMonth()).append(".").append(repeatType.getDay());
+                    switch (repeatType.getType()) {
+                        case RepeatType.EVERYDAY:
+                            builder.append("每天");
+                            break;
+                        case RepeatType.WEEKDAY:
+                            WeekDay[] weekDays = repeatType.getWeekDays();
+                            for (int i = 0; i < weekDays.length; i++) {
+                                builder.append(weekDays[i].toString());
+                                builder.append(",");
+                            }
+                            break;
+                        case RepeatType.MONTHDAY:
+                            builder.append("每月" + repeatType.getDay());
+                            break;
+                        case RepeatType.YEARDAY:
+                            builder.append("纪念日").append(repeatType.getMonth()).append(".").append(repeatType.getDay());
+                            break;
+                        case RepeatType.ONEDAY:
+                            builder.append(repeatType.getYear()).append(".").append(repeatType.getMonth()).append(".").append(repeatType.getDay());
+                            break;
                     }
                     repeatText.setText(builder);
+                    repeatText.setSelected(true);
                 }
             }
         }

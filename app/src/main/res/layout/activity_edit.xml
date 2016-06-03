@@ -59,10 +59,12 @@
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/repeat_right"
             android:alpha="0.5"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
             android:maxWidth="200dp"
             android:padding="10dp"
+            android:scrollHorizontally="true"
             android:singleLine="true"
-            android:text="无"
             android:textColor="@color/gray"
             android:textSize="20sp" />
 

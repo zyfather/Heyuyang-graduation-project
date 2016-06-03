@@ -54,6 +54,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             final TextView mTime = ((ViewHolder) holder).mTime;
             final TextView mInfo = ((ViewHolder) holder).mInfo; //detail, 频率 (String)
             final Switch mSwitch = ((ViewHolder) holder).mSwitch;
+            mInfo.setSelected(true);
 
             if (switchMap.get(position) != null && switchMap.get(position)) {
                 mItem.setAlpha(0.5f);
@@ -110,11 +111,8 @@ public class AlarmAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         int h = v.getHeight();
 
                         int leave_switch = mSwitch.getMeasuredWidth() + mSwitch.getPaddingRight();
-//                        final int back_switch = mSwitch.getPaddingLeft();
                         int leave_time = mTime.getMeasuredWidth() + mTime.getPaddingLeft();
-//                        final int back_time = mTime.getPaddingLeft() / 100;
                         int leave_info = mInfo.getMeasuredWidth() + mInfo.getPaddingLeft();
-//                        final int back_info = mInfo.getPaddingLeft() / 100;
 
                         ObjectAnimator.ofFloat(mSwitch, "translationX", leave_switch).setDuration(400).start();
                         ObjectAnimator.ofFloat(mTime, "translationX", -leave_time).setDuration(400).start();

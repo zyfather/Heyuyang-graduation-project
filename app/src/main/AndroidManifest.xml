@@ -28,7 +28,7 @@
         </activity>
         <activity android:name=".activity.CustomUserDefinedActivity" />
         <activity android:name=".activity.WakeUpActivity" />
-        <activity android:name=".activity.RepetActivity" />
+        <activity android:name=".activity.RepeatActivity" />
 
         <receiver android:name=".AlarmReceiver">
             <intent-filter>

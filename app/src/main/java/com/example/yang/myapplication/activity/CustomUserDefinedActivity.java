@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.example.yang.myapplication.ConstantValue;
 import com.example.yang.myapplication.R;
 import com.example.yang.myapplication.activity.fragment.CheckBoxFragment;
-import com.example.yang.myapplication.activity.fragment.DatePicketFragment;
+import com.example.yang.myapplication.activity.fragment.DatePickerFragment;
 import com.example.yang.myapplication.adapter.DefineFragmentPaperAdapter;
 import com.example.yang.myapplication.data.RepeatType;
 import com.example.yang.myapplication.data.WeekDay;
@@ -38,9 +38,9 @@ public class CustomUserDefinedActivity extends FragmentActivity implements View.
     TextView middleTv;
     TextView rightTv;
 
-    DatePicketFragment specialFrament;
-    DatePicketFragment dayFragment;
-    DatePicketFragment monthFragment;
+    DatePickerFragment specialFrament;
+    DatePickerFragment dayFragment;
+    DatePickerFragment monthFragment;
     CheckBoxFragment weekFragment;
     TextView SpecialDayTv;
 
@@ -72,9 +72,9 @@ public class CustomUserDefinedActivity extends FragmentActivity implements View.
         middleTv.setText(R.string.define);
         rightTv.setText(R.string.ok);
 
-            leftTv.setOnClickListener(this);
-            rightTv.setOnClickListener(this);
-            weekTv.setOnClickListener(this);
+        leftTv.setOnClickListener(this);
+        rightTv.setOnClickListener(this);
+        weekTv.setOnClickListener(this);
         dayTV.setOnClickListener(this);
         monthTv.setOnClickListener(this);
         specialDayTv.setOnClickListener(this);
@@ -110,20 +110,20 @@ public class CustomUserDefinedActivity extends FragmentActivity implements View.
 
     private void submitData() {
         RepeatType mRepeatType = null;
-        if (currentItem == 0){
-            ArrayList<WeekDay> mWeekDays = (ArrayList<WeekDay>)weekFragment.findSelected();
-            mRepeatType = new RepeatType((WeekDay[])mWeekDays.toArray(new WeekDay[mWeekDays.size()]));
+        if (currentItem == 0) {
+            ArrayList<WeekDay> mWeekDays = (ArrayList<WeekDay>) weekFragment.findSelected();
+            mRepeatType = new RepeatType((WeekDay[]) mWeekDays.toArray(new WeekDay[mWeekDays.size()]));
         }
-        if (currentItem == 1){
-            mRepeatType = new RepeatType(dayFragment.getYear(),dayFragment.getmonth(),dayFragment.getday());
+        if (currentItem == 1) {
+            mRepeatType = new RepeatType(dayFragment.getYear(), dayFragment.getMonth(), dayFragment.getDay());
         }
-        if (currentItem == 2){
-            mRepeatType = new RepeatType(-1,-1,monthFragment.getday());
+        if (currentItem == 2) {
+            mRepeatType = new RepeatType(-1, -1, monthFragment.getDay());
         }
-        if (currentItem == 3){
-            mRepeatType = new RepeatType(-1,monthFragment.getmonth(),specialFrament.getday());
+        if (currentItem == 3) {
+            mRepeatType = new RepeatType(-1, monthFragment.getMonth(), specialFrament.getDay());
         }
-        setResult(RESULT_OK,new Intent().putExtra(ConstantValue.repeatKeyString,mRepeatType));
+        setResult(RESULT_OK, new Intent().putExtra(ConstantValue.repeatKeyString, mRepeatType));
         finish();
     }
 
@@ -131,10 +131,10 @@ public class CustomUserDefinedActivity extends FragmentActivity implements View.
     private void showPager(TextView v, int index) {
         initTextColor();
         if (index == 2) {
-            monthFragment.disappleYearNum();
-            monthFragment.disappleMouthNum();
+            monthFragment.disappearYearNum();
+            monthFragment.disappearMouthNum();
         } else if (index == 3) {
-            specialFrament.disappleYearNum();
+            specialFrament.disappearYearNum();
         }
         v.setTextColor(getApplicationContext().getResources().getColor(R.color.title_red));
         mViewPager.setCurrentItem(index);
@@ -151,9 +151,9 @@ public class CustomUserDefinedActivity extends FragmentActivity implements View.
     public void InitViewPager() {
 
         final List<Fragment> paperFragments = new ArrayList<Fragment>();
-        specialFrament = new DatePicketFragment();
-        dayFragment = new DatePicketFragment();
-        monthFragment = new DatePicketFragment();
+        specialFrament = new DatePickerFragment();
+        dayFragment = new DatePickerFragment();
+        monthFragment = new DatePickerFragment();
         weekFragment = new CheckBoxFragment();
 
         paperFragments.add(weekFragment);
@@ -184,13 +184,13 @@ public class CustomUserDefinedActivity extends FragmentActivity implements View.
                 }
                 if (position == 2) {
                     initTextColor();
-                    monthFragment.disappleYearNum();
-                    monthFragment.disappleMouthNum();
+                    monthFragment.disappearYearNum();
+                    monthFragment.disappearMouthNum();
                     monthTv.setTextColor(getApplicationContext().getResources().getColor(R.color.title_red));
                 }
                 if (position == 3) {
                     initTextColor();
-                    specialFrament.disappleYearNum();
+                    specialFrament.disappearYearNum();
                     specialDayTv.setTextColor(getApplicationContext().getResources().getColor(R.color.title_red));
                 }
             }

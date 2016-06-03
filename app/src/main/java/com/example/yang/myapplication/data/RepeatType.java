@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by yang on 16/5/18.
  */
-public class RepeatType implements Serializable{
+public class RepeatType implements Serializable {
 
     public final static int EVERYDAY = 0x1;
     public final static int WEEKDAY = 0x2;
@@ -36,7 +36,7 @@ public class RepeatType implements Serializable{
         if (year == -1) {
             if (month == -1) {
                 if (day == -1) {
-                    if (weekDays != null && weekDays.length > 0) {
+                    if (weekDays != null && weekDays.length > 0 && weekDays.length != 7) {
                         type = WEEKDAY;
                     }
                 } else {
