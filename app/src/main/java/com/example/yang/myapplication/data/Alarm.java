@@ -26,6 +26,9 @@ public class Alarm {
         return this;
     }
 
+    public WeekDay getWeek() {
+        return week;
+    }
 
     public Alarm setId(int id) {
         this.id = id;

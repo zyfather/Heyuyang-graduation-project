@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/title"
+    android:orientation="vertical"
+    >
+
+    <include
+        android:id="@+id/custom_user_defined_title"
+        layout="@layout/view_title"></include>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/gray"/>
+
+    <android.support.v4.view.ViewPager
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:id="@+id/custom_user_defined_viewpager"
+        android:layout_centerInParent="true"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/gray"/>
+
+    <LinearLayout
+        android:background="@color/blackground"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:gravity="center"
+
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:id="@+id/define_activity_week"
+            android:textColor="@color/title_red"
+            style="@style/define_chooseBar_tv_style"
+            android:text="@string/week"/>
+
+        <TextView
+            android:id="@+id/define_activity_day"
+            style="@style/define_chooseBar_tv_style"
+            android:text="@string/day"/>
+
+        <TextView
+            android:id="@+id/define_activity_month"
+            style="@style/define_chooseBar_tv_style"
+            android:text="@string/month"/>
+
+        <TextView
+            android:id="@+id/define_activity_specialday"
+            style="@style/define_chooseBar_tv_style"
+            android:text="@string/specialDay"/>
+
+
+    </LinearLayout>
+
+</LinearLayout>

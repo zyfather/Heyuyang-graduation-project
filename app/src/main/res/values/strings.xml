@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">My Application</string>
+    <string name="alarm">闹钟</string>
+    <string name="about">关于</string>
+    <string name="newAlarm">新建</string>
+    <string name="cancel">取消</string>
+    <string name="ok">确认</string>
+    <string name="define">自定义</string>
+    <string name="week">星期</string>
+    <string name="day">某天</string>
+    <string name="month">每月</string>
+    <string name="specialDay">纪念日</string>
+    <string name="alarm_info">alarm_info</string>
+    <string name="monday">星期一</string>
+    <string name="tuesday">星期二</string>
+    <string name="wednesday">星期三</string>
+    <string name="thursday">星期四</string>
+    <string name="friday">星期五</string>
+    <string name="saturday">星期六</string>
+    <string name="sunday">星期日</string>
+    <string name="repet">重复</string>
+    <string name="every">每天</string>
 </resources>

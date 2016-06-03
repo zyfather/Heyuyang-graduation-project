@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blackground"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/repet_title"
+        layout="@layout/view_title"></include>
+
+    <RadioGroup
+        android:id="@+id/radiogroup"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_marginTop="10dp">
+
+        <RadioButton
+            android:id="@+id/radio_null"
+            style="@style/repetactivity_radiobutton_style"
+            android:text="无"
+            />
+
+        <RadioButton
+            android:id="@+id/radio_everyday"
+            style="@style/repetactivity_radiobutton_style"
+            android:text="每天"
+            />
+        <RadioButton
+            android:id="@+id/radio_workday"
+            style="@style/repetactivity_radiobutton_style"
+            android:text="工作日"
+            />
+        <RadioButton
+            android:id="@+id/radio_weekend"
+            style="@style/repetactivity_radiobutton_style"
+            android:text="周末"
+            />
+        <RadioButton
+            android:id="@+id/radio_defineday"
+            style="@style/repetactivity_radiobutton_style"
+            android:text="自定义"
+            />
+
+
+    </RadioGroup>
+
+</LinearLayout>
