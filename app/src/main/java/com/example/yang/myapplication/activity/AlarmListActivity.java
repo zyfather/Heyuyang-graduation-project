@@ -1,10 +1,13 @@
 package com.example.yang.myapplication.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -15,6 +18,7 @@ import com.example.yang.myapplication.adapter.AlarmAdapter;
 import com.example.yang.myapplication.data.AlarmData;
 import com.example.yang.myapplication.utils.AlarmUtil;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -53,9 +57,14 @@ public class AlarmListActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                AlarmUtil.replaceAlarm(AlarmListActivity.this, new AlarmData[]{});
-                List<AlarmData> alarmDatas = AlarmUtil.getAlarms(AlarmListActivity.this);
-                mAdapter.setmDatas(alarmDatas);
+
+                SharedPreferences sp = getSharedPreferences(getString(R.string.alarm_info), Context.MODE_APPEND);
+                String alarmsJson = sp.getString("alarmsJson", null);
+
+                Log.d("alarms", alarmsJson + "//" + Arrays.toString(AlarmUtil.getAlarms(AlarmListActivity.this).toArray()));
+//                AlarmUtil.replaceAlarm(AlarmListActivity.this, new AlarmData[]{});
+//                List<AlarmData> alarmDatas = AlarmUtil.getAlarms(AlarmListActivity.this);
+//                mAdapter.setmDatas(alarmDatas);
 
 //
 //                Intent intent = new Intent(AlarmListActivity.this, AlarmReceiver.class);
@@ -89,7 +98,7 @@ public class AlarmListActivity extends Activity {
         mAdapter = new AlarmAdapter(this);
         List<AlarmData> alarmDatas = AlarmUtil.getAlarms(this);
         mAlarmList.setAdapter(mAdapter);
-        mAdapter.setmDatas(alarmDatas);
+//        mAdapter.setmDatas(alarmDatas);
 
     }
 

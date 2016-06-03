@@ -33,6 +33,11 @@
             android:text="工作日"
             />
         <RadioButton
+            android:id="@+id/radio_weekend"
+            style="@style/repetactivity_radiobutton_style"
+            android:text="周末"
+            />
+        <RadioButton
             android:id="@+id/radio_defineday"
             style="@style/repetactivity_radiobutton_style"
             android:text="自定义"

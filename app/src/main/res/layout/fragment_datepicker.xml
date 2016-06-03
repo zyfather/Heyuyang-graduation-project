@@ -2,16 +2,47 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:layout_gravity="center">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <TextView
+            android:id="@+id/tv_year"
+            android:paddingLeft="90dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="年"
+            android:textColor="@color/black"
+            android:textSize="23dp"/>
+        <TextView
+            android:id="@+id/tv_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="月"
+            android:textColor="@color/black"
+            android:layout_centerInParent="true"
+            android:textSize="23dp"/>
+        <TextView
+            android:id="@+id/tv_day"
+            android:paddingRight="90dp"
+            android:textColor="@color/black"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="日"
+            android:textSize="23dp"/>
+    </RelativeLayout>
 
     <DatePicker
         android:theme="@android:style/Theme.Holo.Light"
-        android:layout_marginTop="10dp"
         android:id="@+id/custom_user_defined_datepicker"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="wrap_content"
         android:calendarViewShown="false"
-        android:layout_below="@id/custom_user_defined_title"
         ></DatePicker>
 
 </LinearLayout>

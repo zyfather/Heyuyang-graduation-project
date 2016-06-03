@@ -1,11 +1,14 @@
 package com.example.yang.myapplication.adapter;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupWindow;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -47,32 +50,38 @@ public class AlarmAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if (mDatas.size() > position) {
+            View mItem = ((ViewHolder) holder).itemView;
+            final TextView mTime = ((ViewHolder) holder).mTime;
+            final TextView mInfo = ((ViewHolder) holder).mInfo; //detail, 频率 (String)
+            final Switch mSwitch = ((ViewHolder) holder).mSwitch;
+
             if (switchMap.get(position) != null && switchMap.get(position)) {
-                ((ViewHolder) holder).itemView.setAlpha(0.5f);
-                ((ViewHolder) holder).mSwitch.setChecked(false);
+                mItem.setAlpha(0.5f);
+                mSwitch.setChecked(false);
             } else {
-                ((ViewHolder) holder).itemView.setAlpha(1.0f);
-                ((ViewHolder) holder).mSwitch.setChecked(true);
+                mItem.setAlpha(1.0f);
+                mSwitch.setChecked(true);
             }
             final AlarmData data = mDatas.get(position);
             if (data != null) {
-                ((ViewHolder) holder).mTime.setText(data.getTimeStr());
+                mTime.setText(data.getTimeStr());
                 String displayStr = data.getName();
                 if (data.isRepeat()) {
                     displayStr += ", " + data.getTypeStr();
                 }
-                ((ViewHolder) holder).mInfo.setText(displayStr);
+                mInfo.setText(displayStr);
                 if (data.isOn()) {
-                    ((ViewHolder) holder).mSwitch.setChecked(true);
+                    mSwitch.setChecked(true);
                 } else {
-                    ((ViewHolder) holder).itemView.setAlpha(0.5f);
-                    ((ViewHolder) holder).mSwitch.setChecked(false);
+                    mItem.setAlpha(0.5f);
+                    mSwitch.setChecked(false);
                 }
-                ((ViewHolder) holder).mSwitch.setOnClickListener(new View.OnClickListener() {
+                mSwitch.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mDatas.get(position).setSwitch();
-                        if (mDatas.get(position).isOn()) {
+//                        AlarmData alarmData = mDatas.get(position);
+                        data.setSwitch();
+                        if (data.isOn()) {
                             ((ViewHolder) holder).itemView.setAlpha(1.0f);
                             switchMap.put(position, false);
                             AlarmUtil.windUp(mContext, data);
@@ -81,10 +90,11 @@ public class AlarmAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                             switchMap.put(position, true);
                             AlarmUtil.windDown(mContext, data);
                         }
-                        AlarmUtil.replaceAlarm(mContext, mDatas.toArray(new AlarmData[mDatas.size()]));
+                        AlarmUtil.updateAlarm(mContext, data);
+//                        AlarmUtil.replaceAlarm(mContext, mDatas.toArray(new AlarmData[mDatas.size()]));
                     }
                 });
-                ((ViewHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
+                mItem.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         //TODO 跳转编辑
@@ -93,14 +103,55 @@ public class AlarmAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         mContext.startActivity(toEdit);
                     }
                 });
-//                ((ViewHolder) holder).itemView.setOnLongClickListener(new View.OnLongClickListener() {
-//                    @Override
-//                    public boolean onLongClick(View v) {
-//                        mDatas.remove(position);
-//                        notifyDataSetChanged();
-//                        return true;
-//                    }
-//                });
+                mItem.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        int w = v.getWidth();
+                        int h = v.getHeight();
+
+                        int leave_switch = mSwitch.getMeasuredWidth() + mSwitch.getPaddingRight();
+//                        final int back_switch = mSwitch.getPaddingLeft();
+                        int leave_time = mTime.getMeasuredWidth() + mTime.getPaddingLeft();
+//                        final int back_time = mTime.getPaddingLeft() / 100;
+                        int leave_info = mInfo.getMeasuredWidth() + mInfo.getPaddingLeft();
+//                        final int back_info = mInfo.getPaddingLeft() / 100;
+
+                        ObjectAnimator.ofFloat(mSwitch, "translationX", leave_switch).setDuration(400).start();
+                        ObjectAnimator.ofFloat(mTime, "translationX", -leave_time).setDuration(400).start();
+                        ObjectAnimator.ofFloat(mInfo, "translationX", -leave_info).setDuration(400).start();
+
+                        View contentView = LayoutInflater.from(mContext).inflate(
+                                R.layout.delete_bubble, null);
+                        final PopupWindow popupWindow = new PopupWindow(contentView,
+                                -2, -2, true);
+//                        popupWindow.setAnimationStyle(R.style.bubble_expand);
+                        popupWindow.setBackgroundDrawable(mContext.getResources().getDrawable(
+                                R.drawable.crystal));
+                        popupWindow.getContentView().setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                AlarmUtil.deleteAlarm(mContext, data);
+                                mDatas.remove(position);
+                                notifyDataSetChanged();
+                                popupWindow.dismiss();
+                            }
+                        });
+                        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                            @Override
+                            public void onDismiss() {
+                                if (mTime != null && mSwitch != null && mInfo != null) {
+                                    ObjectAnimator.ofFloat(mSwitch, "translationX", -1).setDuration(400).start();
+                                    ObjectAnimator.ofFloat(mTime, "translationX", 1).setDuration(400).start();
+                                    ObjectAnimator.ofFloat(mInfo, "translationX", 1).setDuration(400).start();
+                                }
+                            }
+                        });
+                        popupWindow.showAsDropDown(v, w / 2 - 120, -h + 50, Gravity.FILL);
+                        popupWindow.update();
+
+                        return true;
+                    }
+                });
             }
 
 

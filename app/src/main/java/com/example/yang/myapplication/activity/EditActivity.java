@@ -41,7 +41,6 @@ public class EditActivity extends Activity {
     TextView tagText;
     TextView contentText;
     TextView ringText;
-
     TextView cancelTv;
     TextView saveTv;
 
@@ -88,7 +87,6 @@ public class EditActivity extends Activity {
         mTag = (RelativeLayout) findViewById(R.id.rl_tag);
         mContent = (RelativeLayout) findViewById(R.id.rl_content);
         mRing = (RelativeLayout) findViewById(R.id.rl_ring);
-        mDelete = (Button) findViewById(R.id.edit_delete);
 
         repeatText = (TextView) findViewById(R.id.tv_repeat);
         tagText = (TextView) findViewById(R.id.tv_tag);
@@ -139,6 +137,7 @@ public class EditActivity extends Activity {
 
         if (!isAdd) {
             mDelete = (Button) findViewById(R.id.edit_delete);
+            mDelete.setVisibility(View.VISIBLE);
             mDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -180,11 +179,13 @@ public class EditActivity extends Activity {
                 ed.putInt("id", ids[ids.length - 1] + 1);
                 ed.commit();
 
-                saveAlarm = new AlarmData(name, detail, hou, min
-                        , false, currentRing, repeatType, true, isRepeat, ids);
                 if (isAdd) {
+                    saveAlarm = new AlarmData(name, detail, hou, min
+                            , false, currentRing, repeatType, true, isRepeat, ids);
                     AlarmUtil.saveAlarm(EditActivity.this, saveAlarm);
                 } else {
+                    saveAlarm = new AlarmData(name, detail, hou, min
+                            , false, currentRing, repeatType, saveAlarm.isOn(), isRepeat, saveAlarm.getIds());
                     AlarmUtil.updateAlarm(EditActivity.this, saveAlarm);
                 }
                 setResult(RESULT_OK);

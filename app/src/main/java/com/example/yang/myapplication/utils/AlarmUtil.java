@@ -26,7 +26,6 @@ import java.util.List;
  */
 public class AlarmUtil {
 
-
     /**
      * 保存AlarmDatas to json
      */
@@ -74,6 +73,9 @@ public class AlarmUtil {
      */
     public static void updateAlarm(Context context, int index, AlarmData newData) {
 
+        if (index == -1) {
+            return;
+        }
         List<AlarmData> localList = getAlarms(context);
         if (newData == null) {
             localList.remove(index);
@@ -82,14 +84,13 @@ public class AlarmUtil {
         }
         SharedPreferences sp = context.getSharedPreferences(context.getString(R.string.alarm_info), Context.MODE_APPEND);
         SharedPreferences.Editor ed = sp.edit();
-        String dataStr = new Gson().toJson(Arrays.asList(localList));
+        String dataStr = new Gson().toJson(localList);
         ed.putString("alarmsJson", dataStr);
         ed.commit();
 
     }
 
     /**
-     *
      * @param context
      * @param alarmData
      */
@@ -115,8 +116,8 @@ public class AlarmUtil {
     public static void closeAlarm(Context context, AlarmData alarmData) {
         if (alarmData != null) {
             alarmData.setSwitch();
-            int index = findAlarm(context, alarmData);
-            updateAlarm(context, index, alarmData);
+//            int index = findAlarm(context, alarmData);
+            updateAlarm(context, alarmData);
         }
     }
 
@@ -190,6 +191,9 @@ public class AlarmUtil {
                     if (alarmData.isRepeat()) {
                         calendar.set(Calendar.HOUR_OF_DAY, hou);
                         calendar.set(Calendar.MINUTE, min);
+                        if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
+                            calendar.add(Calendar.HOUR, 24);
+                        }
                         INTERVAL = 1000 * 60 * 60 * 24;// 24h
                         intent.putExtra("alarmData", alarmData);
                         sender = PendingIntent.getBroadcast(
@@ -198,6 +202,9 @@ public class AlarmUtil {
                     } else {
                         calendar.set(Calendar.HOUR_OF_DAY, hou);
                         calendar.set(Calendar.MINUTE, min);
+                        if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
+                            calendar.add(Calendar.HOUR, 24);
+                        }
                         intent.putExtra("alarmData", alarmData);
                         sender = PendingIntent.getBroadcast(
                                 ctx, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);

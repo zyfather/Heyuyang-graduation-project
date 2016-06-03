@@ -182,4 +182,8 @@ public class AlarmData implements Serializable {
         return houStr + ":" + minStr;
     }
 
+    @Override
+    public String toString() {
+        return ids[0] + "," + name + "," + isOn;
+    }
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">MCAlarm</string>
     <string name="alarm">闹钟</string>
     <string name="about">关于</string>
     <string name="newAlarm">新建</string>

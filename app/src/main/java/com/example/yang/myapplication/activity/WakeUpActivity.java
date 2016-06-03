@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,16 +34,24 @@ public class WakeUpActivity extends Activity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
         setContentView(R.layout.activity_wake_up);
 
+        KeyguardManager km =
+                (KeyguardManager) this.getSystemService(Context.KEYGUARD_SERVICE);
+        boolean isLocked = km.inKeyguardRestrictedInputMode();
+        if (isLocked) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+                    | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+        }
+
         initViews();
 
         AlarmData alarmData = (AlarmData) getIntent().getSerializableExtra("alarmData");
+
         if (alarmData != null) {
             mTag.setText(alarmData.getName());
             mContent.setText(alarmData.getDetails());
             //playRing(alarmData);
         }
-        wakeUpAndUnlock(this);
-        //AlarmUtil.windDown(this, alarmData);
+//        wakeUpAndUnlock(this);
     }
 
     private void playRing(AlarmData alarmData) {

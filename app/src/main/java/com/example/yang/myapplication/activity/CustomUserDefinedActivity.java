@@ -205,6 +205,5 @@ public class CustomUserDefinedActivity extends FragmentActivity implements View.
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
     }
 }

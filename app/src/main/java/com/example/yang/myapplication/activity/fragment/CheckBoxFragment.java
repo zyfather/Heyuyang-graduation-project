@@ -35,7 +35,7 @@ public class CheckBoxFragment extends Fragment {
             for (int i = 0; viewGroup.getChildCount() > i ; i++){
                 if (viewGroup.getChildAt(i) instanceof CheckBox){
                     if (((CheckBox)(viewGroup.getChildAt(i))).isChecked())
-                        mWeekDays.add(WeekDay.getValue(i));
+                        mWeekDays.add(WeekDay.getValue(i+1));
                 }
             }
         }

@@ -18,14 +18,18 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         AlarmData alarmData = (AlarmData) intent.getSerializableExtra("alarmData");
-        //月经连锁设置
-        if (alarmData != null && alarmData.getRepeatType().getType() == RepeatType.MONTHDAY) {
-            AlarmUtil.windUp(context, alarmData);
+
+        if (alarmData == null) {
+            return;
         }
-        //close if not repeat
-        if (!alarmData.isRepeat()) {
+
+        //月经连锁设置
+        if (alarmData.getRepeatType().getType() == RepeatType.MONTHDAY) {
+            AlarmUtil.windUp(context, alarmData);
+        } else if (!alarmData.isRepeat()) {//close if not repeat
             AlarmUtil.closeAlarm(context, alarmData);
         }
+
         Intent wake = new Intent(context, WakeUpActivity.class);
         wake.putExtra("alarmData", alarmData);
         wake.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

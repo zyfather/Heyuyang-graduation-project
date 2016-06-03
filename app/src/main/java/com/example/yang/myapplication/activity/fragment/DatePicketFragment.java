@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
+import android.widget.TextView;
 
 import com.example.yang.myapplication.R;
 
@@ -26,10 +27,14 @@ import java.util.List;
 public class DatePicketFragment extends Fragment {
     DatePicker mDatePicker;
 
-
+    List<NumberPicker> mNumberPickers;
     NumberPicker dayNumberPicker;
     NumberPicker monthNumberPicker;
     NumberPicker yearNumberPicker;
+
+    TextView year;
+    TextView month;
+    TextView day;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,12 +47,23 @@ public class DatePicketFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_datepicker,container,false);
         mDatePicker = (DatePicker) v.findViewById(R.id.custom_user_defined_datepicker);
-        List<NumberPicker> mNumberPickers = findNumberPicker(mDatePicker);
-        initNumPicker(mNumberPickers);
+
+        year = (TextView) v.findViewById(R.id.tv_year);
+        month = (TextView) v.findViewById(R.id.tv_month);
+        day = (TextView) v.findViewById(R.id.tv_day);
+
+        mNumberPickers = findNumberPicker(mDatePicker);
+        initNumPicker();
         return v;
     }
 
-    private void initNumPicker(List<NumberPicker> mNumberPickers) {
+    @Override
+    public void onResume() {
+        super.onResume();
+        initNumPicker();
+    }
+
+    private void initNumPicker() {
         dayNumberPicker = mNumberPickers.get(2);
         monthNumberPicker = mNumberPickers.get(1);
         yearNumberPicker = mNumberPickers.get(0);
@@ -73,10 +89,11 @@ public class DatePicketFragment extends Fragment {
     }
 
     public void disappleMouthNum(){
-
+        month.setVisibility(View.GONE);
         monthNumberPicker.setVisibility(View.GONE);
     }
     public void disappleYearNum(){
+        day.setVisibility(View.GONE);
         yearNumberPicker.setVisibility(View.GONE);
     }
 
