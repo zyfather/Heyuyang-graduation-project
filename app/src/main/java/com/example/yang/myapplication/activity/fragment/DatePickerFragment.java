@@ -16,6 +16,7 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.example.yang.myapplication.R;
+import com.example.yang.myapplication.activity.CustomUserDefinedActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,10 +37,14 @@ public class DatePickerFragment extends Fragment {
     TextView month;
     TextView day;
 
+    private int current = 0;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        monthNumberPicker = new NumberPicker(this.getActivity());
+        yearNumberPicker = new NumberPicker(this.getActivity());
+        current = CustomUserDefinedActivity.currentItem;
     }
 
     @Nullable
@@ -54,19 +59,24 @@ public class DatePickerFragment extends Fragment {
 
         mNumberPickers = findNumberPicker(mDatePicker);
         initNumPicker();
+        if (current ==2){
+            disappearMouthAndYearNum();
+        }else if (current ==3){
+            disappearYearNum();
+        }
         return v;
     }
+
 
     @Override
     public void onResume() {
         super.onResume();
-        initNumPicker();
     }
 
     private void initNumPicker() {
-        dayNumberPicker = mNumberPickers.get(2);
-        monthNumberPicker = mNumberPickers.get(1);
         yearNumberPicker = mNumberPickers.get(0);
+        monthNumberPicker = mNumberPickers.get(1);
+        dayNumberPicker = mNumberPickers.get(2);
     }
 
     private List<NumberPicker> findNumberPicker(ViewGroup v) {
@@ -89,12 +99,12 @@ public class DatePickerFragment extends Fragment {
     }
 
     public void disappearMouthNum() {
-        month.setVisibility(View.GONE);
+//        month.setVisibility(View.GONE);
         monthNumberPicker.setVisibility(View.GONE);
     }
 
     public void disappearYearNum() {
-        day.setVisibility(View.GONE);
+//        day.setVisibility(View.GONE);
         yearNumberPicker.setVisibility(View.GONE);
     }
 
@@ -108,5 +118,10 @@ public class DatePickerFragment extends Fragment {
 
     public int getDay() {
         return mDatePicker.getDayOfMonth();
+    }
+
+    public void disappearMouthAndYearNum() {
+        yearNumberPicker.setVisibility(View.GONE);
+        monthNumberPicker.setVisibility(View.GONE);
     }
 }

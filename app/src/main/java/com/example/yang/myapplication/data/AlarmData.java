@@ -139,7 +139,9 @@ public class AlarmData implements Serializable {
             int typeInt = repeatType.getType();
             switch (typeInt) {
                 case RepeatType.EVERYDAY:
-                    typeStr = "每天";
+                    if (isRepeat) {
+                        typeStr = "每天";
+                    }
                     break;
                 case RepeatType.WEEKDAY:
                     StringBuilder sb = new StringBuilder(typeStr);

@@ -71,7 +71,7 @@ public class RepeatActivity extends Activity implements View.OnClickListener {
     private void submitData() {
         RepeatType repeatType = null;
         if (currentRadioButton == R.id.radio_null){
-            repeatType = new RepeatType();
+            repeatType = null;
         }
         if (currentRadioButton == R.id.radio_everyday){
             repeatType = new RepeatType(WeekDay.SUN,WeekDay.MON,WeekDay.TUE,

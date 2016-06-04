@@ -42,11 +42,10 @@ public class CustomUserDefinedActivity extends FragmentActivity implements View.
     DatePickerFragment dayFragment;
     DatePickerFragment monthFragment;
     CheckBoxFragment weekFragment;
-    TextView SpecialDayTv;
 
     ViewPager mViewPager;
     DatePicker mDatePicker;
-    int currentItem;
+    public static int currentItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +57,6 @@ public class CustomUserDefinedActivity extends FragmentActivity implements View.
         monthTv = (TextView) findViewById(R.id.define_activity_month);
         specialDayTv = (TextView) findViewById(R.id.define_activity_specialday);
         mViewPager = (ViewPager) findViewById(R.id.custom_user_defined_viewpager);
-        SpecialDayTv = (TextView) findViewById(R.id.define_activity_specialday);
         leftTv = (TextView) findViewById(R.id.title_left_tv);
         middleTv = (TextView) findViewById(R.id.title_middle_tv);
         rightTv = (TextView) findViewById(R.id.title_right_tv);
@@ -78,7 +76,6 @@ public class CustomUserDefinedActivity extends FragmentActivity implements View.
         dayTV.setOnClickListener(this);
         monthTv.setOnClickListener(this);
         specialDayTv.setOnClickListener(this);
-        SpecialDayTv.setOnClickListener(this);
     }
 
     @Override
@@ -130,12 +127,11 @@ public class CustomUserDefinedActivity extends FragmentActivity implements View.
 
     private void showPager(TextView v, int index) {
         initTextColor();
-        if (index == 2) {
-            monthFragment.disappearYearNum();
-            monthFragment.disappearMouthNum();
-        } else if (index == 3) {
-            specialFrament.disappearYearNum();
-        }
+//        if (index == 2 ) {//ture 消失年月
+//            monthFragment.disappearMouthAndYearNum();
+//        } else if (index == 3){//false 消失年
+//            specialFrament.disappearYearNum();
+//        }
         v.setTextColor(getApplicationContext().getResources().getColor(R.color.title_red));
         mViewPager.setCurrentItem(index);
     }

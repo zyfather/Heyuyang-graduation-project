@@ -167,7 +167,7 @@ public class EditActivity extends Activity {
                 int id = sp.getInt("id", 0);
 
                 int[] ids = new int[]{id};
-                if (repeatType.getType() == RepeatType.WEEKDAY) {
+                if (repeatType != null && repeatType.getType() == RepeatType.WEEKDAY) {
                     ids = new int[repeatType.getWeekDays().length];
 
                     for (int i = 1; i < ids.length; i++) {
@@ -179,7 +179,7 @@ public class EditActivity extends Activity {
                 ed.putInt("id", ids[ids.length - 1] + 1);
                 ed.commit();
 
-                isRepeat = repeatText.getText().length() > 1;
+                //isRepeat = repeatText.getText().length() > 1;
 
                 if (isAdd) {
                     saveAlarm = new AlarmData(name, detail, hou, min
@@ -189,6 +189,7 @@ public class EditActivity extends Activity {
                     saveAlarm = new AlarmData(name, detail, hou, min
                             , false, currentRing, repeatType, saveAlarm.isOn(), isRepeat, saveAlarm.getIds());
                     AlarmUtil.updateAlarm(EditActivity.this, saveAlarm);
+                    AlarmUtil.windUp(EditActivity.this, saveAlarm);
                 }
                 setResult(RESULT_OK);
                 finish();
@@ -334,7 +335,8 @@ public class EditActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == ConstantValue.repeatRequestCode) {
-                if (data.getSerializableExtra(ConstantValue.repeatKeyString) instanceof RepeatType) {
+                if (data.getSerializableExtra(ConstantValue.repeatKeyString) != null) {
+                    isRepeat = true;
                     repeatType = (RepeatType) data.getSerializableExtra(ConstantValue.repeatKeyString);
                     StringBuilder builder = new StringBuilder();
                     switch (repeatType.getType()) {
