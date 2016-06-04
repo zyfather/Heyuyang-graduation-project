@@ -4,6 +4,7 @@ package com.example.yang.myapplication.activity.fragment;
  * Created by yang on 16/5/30.
  */
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -60,9 +61,9 @@ public class DatePickerFragment extends Fragment {
         mNumberPickers = findNumberPicker(mDatePicker);
         initNumPicker();
         if (current == 2) {
-            disappearMouthAndYearNum();
+            displayEveryMonth();
         } else if (current == 3) {
-            disappearYearNum();
+            displaySpecialDay();
         }
         return v;
     }
@@ -75,6 +76,10 @@ public class DatePickerFragment extends Fragment {
 
     private void initNumPicker() {
         yearNumberPicker = mNumberPickers.get(0);
+        TextView yearText = new TextView(getActivity());
+        yearText.setText("年");
+        yearText.setTextColor(Color.BLACK);
+        yearNumberPicker.addView(yearText, 0);
         monthNumberPicker = mNumberPickers.get(1);
         dayNumberPicker = mNumberPickers.get(2);
     }
@@ -98,14 +103,24 @@ public class DatePickerFragment extends Fragment {
         return numberPickerList;
     }
 
-    public void disappearMouthNum() {
-//        month.setVisibility(View.GONE);
+    public void displayEveryMonth() {
+        yearNumberPicker.setVisibility(View.GONE);
         monthNumberPicker.setVisibility(View.GONE);
+        dayNumberPicker.setVisibility(View.VISIBLE);
+
+        year.setVisibility(View.GONE);
+        month.setVisibility(View.GONE);
+        day.setVisibility(View.VISIBLE);
     }
 
-    public void disappearYearNum() {
-//        day.setVisibility(View.GONE);
+    public void displaySpecialDay() {
         yearNumberPicker.setVisibility(View.GONE);
+        monthNumberPicker.setVisibility(View.VISIBLE);
+        dayNumberPicker.setVisibility(View.VISIBLE);
+
+        year.setVisibility(View.GONE);
+        month.setVisibility(View.VISIBLE);
+        day.setVisibility(View.VISIBLE);
     }
 
     public int getYear() {
@@ -120,9 +135,5 @@ public class DatePickerFragment extends Fragment {
         return mDatePicker.getDayOfMonth();
     }
 
-    public void disappearMouthAndYearNum() {
-//        dayNumberPicker.setMaxValue(31);
-        yearNumberPicker.setVisibility(View.GONE);
-        monthNumberPicker.setVisibility(View.GONE);
-    }
+
 }

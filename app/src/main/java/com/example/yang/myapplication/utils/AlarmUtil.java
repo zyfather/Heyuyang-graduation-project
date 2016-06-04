@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * Created by yang on 16/5/29.
@@ -180,6 +181,7 @@ public class AlarmUtil {
             AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
 
             Calendar calendar = Calendar.getInstance();
+            calendar.setTimeZone(TimeZone.getTimeZone("GMT+8"));
 //        calendar.setTimeInMillis(System.currentTimeMillis());
 //            calendar.add(Calendar.MILLISECOND, 3);
 
@@ -188,23 +190,18 @@ public class AlarmUtil {
 
             switch (alarmData.getRepeatType().getType()) {
                 case RepeatType.EVERYDAY:
+                    calendar.set(Calendar.HOUR_OF_DAY, hou);
+                    calendar.set(Calendar.MINUTE, min);
+                    if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
+                        calendar.add(Calendar.HOUR, 24);
+                    }
                     if (alarmData.isRepeat()) {
-                        calendar.set(Calendar.HOUR_OF_DAY, hou);
-                        calendar.set(Calendar.MINUTE, min);
-                        if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
-                            calendar.add(Calendar.HOUR, 24);
-                        }
                         INTERVAL = 1000 * 60 * 60 * 24;// 24h
                         intent.putExtra("alarmData", alarmData);
                         sender = PendingIntent.getBroadcast(
                                 ctx, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                         am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), INTERVAL, sender);
                     } else {
-                        calendar.set(Calendar.HOUR_OF_DAY, hou);
-                        calendar.set(Calendar.MINUTE, min);
-                        if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
-                            calendar.add(Calendar.HOUR, 24);
-                        }
                         intent.putExtra("alarmData", alarmData);
                         sender = PendingIntent.getBroadcast(
                                 ctx, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -216,6 +213,9 @@ public class AlarmUtil {
                         calendar.set(Calendar.DAY_OF_WEEK, weekDay.getValue());
                         calendar.set(Calendar.HOUR, hou);
                         calendar.set(Calendar.MINUTE, min);
+                        if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
+                            calendar.add(Calendar.DAY_OF_MONTH, 7);
+                        }
                         INTERVAL = 1000 * 60 * 60 * 24 * 7;// 7days
                         intent.putExtra("alarmData", alarmData);
                         sender = PendingIntent.getBroadcast(
@@ -228,7 +228,9 @@ public class AlarmUtil {
                     calendar.set(Calendar.DATE, alarmData.getRepeatType().getDay());
                     calendar.set(Calendar.HOUR, hou);
                     calendar.set(Calendar.MINUTE, min);
-
+                    if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
+                        calendar.add(Calendar.MONTH, 1);
+                    }
                     intent.putExtra("isMonthDay", true);
                     intent.putExtra("alarmData", alarmData);
                     sender = PendingIntent.getBroadcast(
@@ -239,6 +241,9 @@ public class AlarmUtil {
                     calendar.set(Calendar.DAY_OF_YEAR, alarmData.getRepeatType().getDay());
                     calendar.set(Calendar.HOUR, hou);
                     calendar.set(Calendar.MINUTE, min);
+                    if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
+                        calendar.add(Calendar.YEAR, 1);
+                    }
                     INTERVAL = 1000 * 60 * 60 * 24 * 365;// 365days
                     intent.putExtra("alarmData", alarmData);
                     sender = PendingIntent.getBroadcast(

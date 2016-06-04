@@ -180,13 +180,12 @@ public class CustomUserDefinedActivity extends FragmentActivity implements View.
                 }
                 if (position == 2) {
                     initTextColor();
-                    monthFragment.disappearYearNum();
-                    monthFragment.disappearMouthNum();
+                    monthFragment.displayEveryMonth();
                     monthTv.setTextColor(getApplicationContext().getResources().getColor(R.color.title_red));
                 }
                 if (position == 3) {
                     initTextColor();
-                    specialFrament.disappearYearNum();
+                    specialFrament.displaySpecialDay();
                     specialDayTv.setTextColor(getApplicationContext().getResources().getColor(R.color.title_red));
                 }
             }
