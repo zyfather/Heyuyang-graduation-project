@@ -180,8 +180,7 @@ public class AlarmUtil {
 
             AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
 
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTimeZone(TimeZone.getTimeZone("GMT+8"));
+            Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+8"));
 //        calendar.setTimeInMillis(System.currentTimeMillis());
 //            calendar.add(Calendar.MILLISECOND, 3);
 
@@ -224,11 +223,14 @@ public class AlarmUtil {
                     }
                     break;
                 case RepeatType.MONTHDAY:
-                    calendar.set(Calendar.MONTH, calendar.getTime().getMonth() + 1);
+                    calendar.set(Calendar.MONTH, calendar.getTime().getMonth());
                     calendar.set(Calendar.DATE, alarmData.getRepeatType().getDay());
                     calendar.set(Calendar.HOUR, hou);
                     calendar.set(Calendar.MINUTE, min);
-                    if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
+                    if (calendar.getTimeInMillis() < System.currentTimeMillis()) {
+                        calendar.add(Calendar.MONTH, 1);
+                    }
+                    if (calendar.getActualMaximum(Calendar.MONTH) < alarmData.getRepeatType().getDay()) {
                         calendar.add(Calendar.MONTH, 1);
                     }
                     intent.putExtra("isMonthDay", true);
@@ -289,7 +291,6 @@ public class AlarmUtil {
             AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
             am.cancel(sender);
         }
-
         for (AlarmData localData : getAlarms(ctx)) {
             if (localData.getIds()[0] == alarmData.getIds()[0]) {
                 localData.setSwitch();
