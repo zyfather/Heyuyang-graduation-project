@@ -1,2 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" />
+<items version="2" >
+
+    <item
+        jar="/Users/ShaunRain/Desktop/Heyuyang-graduation-project/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.1"
+        sha1="6cbc7773921fcfedbe55657578f0cbfe614778dc">
+        <dex dex="/Users/ShaunRain/Desktop/Heyuyang-graduation-project/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-23.1.1_f8a7225e3eb9ae2b37c777d88abb6fbd6e446c76/classes.dex" />
+    </item>
+    <item
+        jar="/Users/ShaunRain/Desktop/Heyuyang-graduation-project/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        revision="23.0.1"
+        sha1="5b15c408b88f701669463836a8d9422020acde54">
+        <dex dex="/Users/ShaunRain/Desktop/Heyuyang-graduation-project/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_b6e14edc8fa02527fc0acd055813cad02b4c2150/classes.dex" />
+    </item>
+    <item
+        jar="/Users/ShaunRain/Desktop/Heyuyang-graduation-project/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/libs/internal_impl-23.1.1.jar"
+        jumboMode="true"
+        revision="23.0.1"
+        sha1="a4de9c81ae239414e1ed0f86441b02abaf29bca9">
+        <dex dex="/Users/ShaunRain/Desktop/Heyuyang-graduation-project/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-23.1.1_ad6535916ecfa42e6b9221135a01bbf7e7559b85/classes.dex" />
+    </item>
+    <item
+        jar="/Users/ShaunRain/Desktop/Heyuyang-graduation-project/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        revision="23.0.1"
+        sha1="f174a7c6c62b7ef242292ac8ad8c20b2b67296bb">
+        <dex dex="/Users/ShaunRain/Desktop/Heyuyang-graduation-project/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_75356bccd9b4348f09ee56f735fc132195459839/classes.dex" />
+    </item>
+    <item
+        jar="/Users/ShaunRain/Desktop/Heyuyang-graduation-project/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.1"
+        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
+        <dex dex="/Users/ShaunRain/Desktop/Heyuyang-graduation-project/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-23.0.1_2a692cee6a00a2cc76db054ed5ce126686de1c51/classes.dex" />
+    </item>
+    <item
+        jar="/Users/ShaunRain/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.1.1/support-annotations-23.1.1.jar"
+        jumboMode="true"
+        revision="23.0.1"
+        sha1="8d680ba5a623724d1fb0e81c36a790f023a6cede">
+        <dex dex="/Users/ShaunRain/Desktop/Heyuyang-graduation-project/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-23.1.1_5cf324af9ee0cd06251cb0ece9a88ed2b8f571ee/classes.dex" />
+    </item>
+    <item
+        jar="/Users/ShaunRain/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.6.2/f1bc476cc167b18e66c297df599b2377131a8947/gson-2.6.2.jar"
+        jumboMode="true"
+        revision="23.0.1"
+        sha1="f1bc476cc167b18e66c297df599b2377131a8947">
+        <dex dex="/Users/ShaunRain/Desktop/Heyuyang-graduation-project/app/build/intermediates/transforms/dex/debug/folders/1000/10/gson-2.6.2_2fbbacca51206b45e26a7e4860980d78cdb9ddc8/classes.dex" />
+    </item>
+    <item
+        jar="/Users/ShaunRain/Desktop/Heyuyang-graduation-project/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.1.1/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.1"
+        sha1="09c5e804bc67fc0580360043dff067df574a60d4">
+        <dex dex="/Users/ShaunRain/Desktop/Heyuyang-graduation-project/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-recyclerview-v7-23.1.1_68383eff01e941bb0c99abde51954c5c88787a69/classes.dex" />
+    </item>
+
+</items>

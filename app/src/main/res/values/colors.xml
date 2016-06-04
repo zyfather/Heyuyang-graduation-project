@@ -9,5 +9,6 @@
     <color name="gray">#a9a9ac</color>
     <color name="black">#000000</color>
     <color name="list_bg">#ededf4</color>
+    <color name="crystal">#00000000</color>
 
 </resources>

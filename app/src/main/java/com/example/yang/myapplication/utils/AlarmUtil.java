@@ -99,7 +99,10 @@ public class AlarmUtil {
     public static void updateAlarm(Context context, AlarmData alarmData) {
 
         windDown(context, alarmData);
-        updateAlarm(context, findAlarm(context, alarmData), alarmData);
+        int index;
+        if ((index = findAlarm(context, alarmData)) >= 0) {
+            updateAlarm(context, index, alarmData);
+        }
 
     }
 
@@ -119,7 +122,6 @@ public class AlarmUtil {
     public static void closeAlarm(Context context, AlarmData alarmData) {
         if (alarmData != null) {
             alarmData.setSwitch();
-//            int index = findAlarm(context, alarmData);
             updateAlarm(context, alarmData);
         }
     }
@@ -259,7 +261,7 @@ public class AlarmUtil {
                     calendar.set(Calendar.MINUTE, min);
                     if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
                         //TODO 设置过期的闹钟
-                        Toast.makeText(ctx, "可能永远都不会响的闹钟!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(ctx, "可能永远都不会响的闹钟!", Toast.LENGTH_SHORT).show();
                     } else {
                         intent.putExtra("alarmData", alarmData);
                         sender = PendingIntent.getBroadcast(

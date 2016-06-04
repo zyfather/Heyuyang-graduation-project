@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -50,6 +51,7 @@ public class EditActivity extends Activity {
     private List<String> sysRings;
     private int currentRing;
     private boolean isRepeat;
+    private boolean isVib;
 
     private boolean isAdd;
     private AlarmData saveAlarm;
@@ -177,17 +179,17 @@ public class EditActivity extends Activity {
 
                 SharedPreferences.Editor ed = sp.edit();
                 ed.putInt("id", ids[ids.length - 1] + 1);
-                ed.commit();
+                ed.apply();
 
                 //isRepeat = repeatText.getText().length() > 1;
 
                 if (isAdd) {
                     saveAlarm = new AlarmData(name, detail, hou, min
-                            , false, currentRing, repeatType, true, isRepeat, ids);
+                            , isVib, currentRing, repeatType, true, isRepeat, ids);
                     AlarmUtil.saveAlarm(EditActivity.this, saveAlarm);
                 } else {
                     saveAlarm = new AlarmData(name, detail, hou, min
-                            , false, currentRing, repeatType, saveAlarm.isOn(), isRepeat, saveAlarm.getIds());
+                            , isVib, currentRing, repeatType, saveAlarm.isOn(), isRepeat, saveAlarm.getIds());
                     AlarmUtil.updateAlarm(EditActivity.this, saveAlarm);
                     AlarmUtil.windUp(EditActivity.this, saveAlarm);
                 }
@@ -280,6 +282,9 @@ public class EditActivity extends Activity {
                 TextView mid = (TextView) dialogView.findViewById(R.id.dialog_middle);
                 mid.setText("铃声");
 
+                final Switch vibSwitch = (Switch) dialog.findViewById(R.id.ring_vib);
+                vibSwitch.setChecked(isVib);
+
                 final NumberPicker ringPicker = (NumberPicker) dialogView.findViewById(R.id.ring_np);
                 ringPicker.setDisplayedValues(sysRings.toArray(new String[sysRings.size()]));
                 ringPicker.setMinValue(0);
@@ -292,6 +297,7 @@ public class EditActivity extends Activity {
                     }
                 });
                 EditText editText = findInput(ringPicker);
+                assert editText != null;
                 editText.setKeyListener(null);
                 ringPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
@@ -300,6 +306,7 @@ public class EditActivity extends Activity {
                     public void onClick(View v) {
                         ringText.setText(sysRings.get(ringPicker.getValue()));
                         currentRing = ringPicker.getValue();
+                        isVib = vibSwitch.isChecked();
                         dialog.dismiss();
                     }
                 });

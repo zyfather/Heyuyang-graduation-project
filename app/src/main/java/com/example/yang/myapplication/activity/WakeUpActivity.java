@@ -2,22 +2,22 @@ package com.example.yang.myapplication.activity;
 
 import android.app.Activity;
 import android.app.KeyguardManager;
+import android.app.Service;
 import android.content.Context;
 import android.media.MediaPlayer;
+import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.os.Vibrator;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.yang.myapplication.R;
 import com.example.yang.myapplication.data.AlarmData;
-
-import java.io.IOException;
 
 /**
  * 闹钟响铃界面
@@ -27,6 +27,8 @@ public class WakeUpActivity extends Activity {
     TextView mTag;
     TextView mContent;
     MediaPlayer mPlayer;
+    Ringtone ringtone;
+    Vibrator vib;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,7 @@ public class WakeUpActivity extends Activity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
         setContentView(R.layout.activity_wake_up);
 
+        wakeUpAndUnlock(this);
         KeyguardManager km =
                 (KeyguardManager) this.getSystemService(Context.KEYGUARD_SERVICE);
         boolean isLocked = km.inKeyguardRestrictedInputMode();
@@ -49,24 +52,34 @@ public class WakeUpActivity extends Activity {
         if (alarmData != null) {
             mTag.setText(alarmData.getName());
             mContent.setText(alarmData.getDetails());
-            //playRing(alarmData);
+            if (alarmData.isVib()) {
+                vibrate();
+            }
+            playRing(alarmData);
         }
 //        wakeUpAndUnlock(this);
     }
 
     private void playRing(AlarmData alarmData) {
         RingtoneManager manager = new RingtoneManager(WakeUpActivity.this);
-        manager.setType(RingtoneManager.TYPE_ALARM);
-        Uri ringUri = manager.getRingtoneUri(alarmData.getRing());
+        manager.setType(RingtoneManager.TYPE_RINGTONE);
+//        Uri ringUri = manager.getRingtoneUri(alarmData.getRing());
+        Uri ringUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        ringtone = RingtoneManager.getRingtone(WakeUpActivity.this, ringUri);
+        ringtone.play();
+//        mPlayer = MediaPlayer.create(WakeUpActivity.this, ringtone);
+//        try {
+//            mPlayer.prepare();
+//            mPlayer.start();
+//        } catch (IOException e) {
+//            Toast.makeText(WakeUpActivity.this, "ring error", Toast.LENGTH_SHORT).show();
+//            finish();
+//        }
+    }
 
-        mPlayer = MediaPlayer.create(WakeUpActivity.this, ringUri);
-        try {
-            mPlayer.prepare();
-            mPlayer.start();
-        } catch (IOException e) {
-            Toast.makeText(WakeUpActivity.this, "ring error", Toast.LENGTH_SHORT).show();
-            finish();
-        }
+    private void vibrate() {
+        vib = (Vibrator) getSystemService(Service.VIBRATOR_SERVICE);
+        vib.vibrate(new long[]{500, 500}, 0);
     }
 
     private void initViews() {
@@ -76,10 +89,16 @@ public class WakeUpActivity extends Activity {
 
     public void close(View view) {
 
-        if (mPlayer != null && mPlayer.isPlaying()) {
-            mPlayer.pause();
-            mPlayer.stop();
-            mPlayer.release();
+//        if (mPlayer != null && mPlayer.isPlaying()) {
+//            mPlayer.pause();
+//            mPlayer.stop();
+//            mPlayer.release();
+//        }
+        if (ringtone != null && ringtone.isPlaying()) {
+            ringtone.stop();
+        }
+        if (vib != null) {
+            vib.cancel();
         }
         finish();
     }

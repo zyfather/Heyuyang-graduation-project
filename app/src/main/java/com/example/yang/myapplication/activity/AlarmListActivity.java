@@ -1,6 +1,8 @@
 package com.example.yang.myapplication.activity;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,12 +15,15 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.yang.myapplication.AlarmReceiver;
 import com.example.yang.myapplication.R;
 import com.example.yang.myapplication.adapter.AlarmAdapter;
 import com.example.yang.myapplication.data.AlarmData;
+import com.example.yang.myapplication.data.RepeatType;
 import com.example.yang.myapplication.utils.AlarmUtil;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -61,22 +66,24 @@ public class AlarmListActivity extends Activity {
                 SharedPreferences sp = getSharedPreferences(getString(R.string.alarm_info), Context.MODE_APPEND);
                 String alarmsJson = sp.getString("alarmsJson", null);
 
-                Log.d("alarms", alarmsJson + "//" + Arrays.toString(AlarmUtil.getAlarms(AlarmListActivity.this).toArray()));
+                if (alarmsJson != null && alarmsJson.length() > 0)
+                    Log.d("alarms", alarmsJson + "//" + Arrays.toString(AlarmUtil.getAlarms(AlarmListActivity.this).toArray()));
 //                AlarmUtil.replaceAlarm(AlarmListActivity.this, new AlarmData[]{});
 //                List<AlarmData> alarmDatas = AlarmUtil.getAlarms(AlarmListActivity.this);
 //                mAdapter.setmDatas(alarmDatas);
 
-//
-//                Intent intent = new Intent(AlarmListActivity.this, AlarmReceiver.class);
-//                PendingIntent sender = PendingIntent.getBroadcast(
-//                        AlarmListActivity.this, 0, intent, 0);
-//
-//                Calendar calendar = Calendar.getInstance();
-//                calendar.setTimeInMillis(System.currentTimeMillis());
-//                calendar.add(Calendar.SECOND, 3);
-//
-//                AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
-//                am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), sender);
+
+                Intent intent = new Intent(AlarmListActivity.this, AlarmReceiver.class);
+                intent.putExtra("alarmData", new AlarmData("><", "...", 11, 11, true, 2, new RepeatType(), true, false, new int[]{0x11}));
+                PendingIntent sender = PendingIntent.getBroadcast(
+                        AlarmListActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(System.currentTimeMillis());
+                calendar.add(Calendar.SECOND, 1);
+
+                AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+                am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), sender);
 
             }
         });

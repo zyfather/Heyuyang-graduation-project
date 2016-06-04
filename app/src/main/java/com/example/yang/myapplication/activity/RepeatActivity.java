@@ -39,7 +39,7 @@ public class RepeatActivity extends Activity implements View.OnClickListener {
 
         leftTv.setText(getResources().getString(R.string.cancel));
         rightTv.setText(getResources().getString(R.string.ok));
-        middleTv.setText(getResources().getString(R.string.repet));
+        middleTv.setText(getResources().getString(R.string.repeat));
         leftTv.setOnClickListener(this);
         rightTv.setOnClickListener(this);
 
@@ -48,8 +48,8 @@ public class RepeatActivity extends Activity implements View.OnClickListener {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 currentRadioButton = checkedId;
-                if (checkedId == R.id.radio_defineday){
-                    startActivityForResult(new Intent(RepeatActivity.this,CustomUserDefinedActivity.class),ConstantValue.repeatDefineRequestCode);
+                if (checkedId == R.id.radio_defineday) {
+                    startActivityForResult(new Intent(RepeatActivity.this, CustomUserDefinedActivity.class), ConstantValue.repeatDefineRequestCode);
                 }
             }
         });
@@ -58,7 +58,7 @@ public class RepeatActivity extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.title_right_tv:
                 submitData();
                 break;
@@ -70,29 +70,29 @@ public class RepeatActivity extends Activity implements View.OnClickListener {
 
     private void submitData() {
         RepeatType repeatType = null;
-        if (currentRadioButton == R.id.radio_null){
+        if (currentRadioButton == R.id.radio_null) {
             repeatType = null;
         }
-        if (currentRadioButton == R.id.radio_everyday){
-            repeatType = new RepeatType(WeekDay.SUN,WeekDay.MON,WeekDay.TUE,
-                    WeekDay.WEN,WeekDay.THR,WeekDay.FRI,WeekDay.SAT);
+        if (currentRadioButton == R.id.radio_everyday) {
+            repeatType = new RepeatType(WeekDay.SUN, WeekDay.MON, WeekDay.TUE,
+                    WeekDay.WEN, WeekDay.THR, WeekDay.FRI, WeekDay.SAT);
         }
-        if (currentRadioButton == R.id.radio_weekend){
-            repeatType = new RepeatType(WeekDay.SUN,WeekDay.SAT);
+        if (currentRadioButton == R.id.radio_weekend) {
+            repeatType = new RepeatType(WeekDay.SUN, WeekDay.SAT);
         }
-        if (currentRadioButton == R.id.radio_workday){
-            repeatType = new RepeatType(WeekDay.MON,WeekDay.TUE,
-                    WeekDay.WEN,WeekDay.THR,WeekDay.FRI);
+        if (currentRadioButton == R.id.radio_workday) {
+            repeatType = new RepeatType(WeekDay.MON, WeekDay.TUE,
+                    WeekDay.WEN, WeekDay.THR, WeekDay.FRI);
         }
-        setResult(RESULT_OK,new Intent().putExtra(ConstantValue.repeatKeyString,repeatType));
+        setResult(RESULT_OK, new Intent().putExtra(ConstantValue.repeatKeyString, repeatType));
         finish();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK){
-            if (requestCode  == ConstantValue.repeatDefineRequestCode){
+        if (resultCode == RESULT_OK) {
+            if (requestCode == ConstantValue.repeatDefineRequestCode) {
                 if (data.getSerializableExtra(ConstantValue.repeatKeyString) instanceof RepeatType) {
                     RepeatType repeatType = (RepeatType) data.getSerializableExtra(ConstantValue.repeatKeyString);
                     setResult(RESULT_OK, new Intent().putExtra(ConstantValue.repeatKeyString, repeatType));
@@ -100,7 +100,7 @@ public class RepeatActivity extends Activity implements View.OnClickListener {
                 }
             }
         }
-        if (resultCode == ConstantValue.resultCodeCancel){
+        if (resultCode == ConstantValue.resultCodeCancel) {
             finish();
         }
     }

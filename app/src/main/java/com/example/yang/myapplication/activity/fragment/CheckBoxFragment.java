@@ -21,22 +21,24 @@ import java.util.List;
 public class CheckBoxFragment extends Fragment {
 
     ViewGroup viewGroup;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_checkboxs,container,false);
-        viewGroup = (ViewGroup)v;
+        View v = inflater.inflate(R.layout.fragment_checkboxes, container, false);
+        viewGroup = (ViewGroup) v;
         return v;
     }
 
     public List<WeekDay> findSelected() {
         List<WeekDay> mWeekDays = new ArrayList<WeekDay>();
-        if (viewGroup != null){
-            for (int i = 0; viewGroup.getChildCount() > i ; i++){
-                if (viewGroup.getChildAt(i) instanceof CheckBox){
-                    if (((CheckBox)(viewGroup.getChildAt(i))).isChecked())
-                        mWeekDays.add(WeekDay.getValue(i+1));
-                }
+        if (viewGroup != null) {
+            for (int i = 0; viewGroup.getChildCount() > i; i++) {
+                ViewGroup wrap = (ViewGroup) viewGroup.getChildAt(i);
+                if (wrap.getChildAt(1) instanceof CheckBox)
+                    if (((CheckBox) wrap.getChildAt(1)).isChecked()) {
+                        mWeekDays.add(WeekDay.getValue(i + 1));
+                    }
             }
         }
         return mWeekDays;

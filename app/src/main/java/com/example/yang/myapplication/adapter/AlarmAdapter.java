@@ -145,7 +145,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                                 }
                             }
                         });
-                        popupWindow.showAsDropDown(v, w / 2, -ScreenUtil.dp2px(mContext, 100), Gravity.FILL);
+                        popupWindow.showAsDropDown(v, w / 2 - ScreenUtil.dp2px(mContext, 50), -ScreenUtil.dp2px(mContext, 100 - (50 - 30)), Gravity.FILL);
                         popupWindow.update();
 
                         return true;
