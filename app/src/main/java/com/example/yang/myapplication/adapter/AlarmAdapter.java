@@ -16,6 +16,7 @@ import com.example.yang.myapplication.R;
 import com.example.yang.myapplication.activity.EditActivity;
 import com.example.yang.myapplication.data.AlarmData;
 import com.example.yang.myapplication.utils.AlarmUtil;
+import com.example.yang.myapplication.utils.ScreenUtil;
 
 import java.util.HashMap;
 import java.util.List;
@@ -107,8 +108,8 @@ public class AlarmAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 mItem.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        int w = v.getWidth();
-                        int h = v.getHeight();
+
+                        int w = ScreenUtil.getScreenWidth(mContext);
 
                         int leave_switch = mSwitch.getMeasuredWidth() + mSwitch.getPaddingRight();
                         int leave_time = mTime.getMeasuredWidth() + mTime.getPaddingLeft();
@@ -144,7 +145,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                                 }
                             }
                         });
-                        popupWindow.showAsDropDown(v, w / 2 - 120, -h + 50, Gravity.FILL);
+                        popupWindow.showAsDropDown(v, w / 2, -ScreenUtil.dp2px(mContext, 100), Gravity.FILL);
                         popupWindow.update();
 
                         return true;

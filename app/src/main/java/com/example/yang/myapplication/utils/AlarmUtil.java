@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import com.example.yang.myapplication.AlarmReceiver;
 import com.example.yang.myapplication.ConstantValue;
@@ -258,6 +259,7 @@ public class AlarmUtil {
                     calendar.set(Calendar.MINUTE, min);
                     if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
                         //TODO 设置过期的闹钟
+                        Toast.makeText(ctx, "可能永远都不会响的闹钟!", Toast.LENGTH_LONG).show();
                     } else {
                         intent.putExtra("alarmData", alarmData);
                         sender = PendingIntent.getBroadcast(
