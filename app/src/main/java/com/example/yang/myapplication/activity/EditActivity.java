@@ -120,6 +120,7 @@ public class EditActivity extends Activity {
         contentText.setText(saveAlarm.getDetails());
         ringText.setText(sysRings.get(saveAlarm.getRing()));
         currentRing = saveAlarm.getRing();
+        isVib = saveAlarm.isVib();
 
     }
 

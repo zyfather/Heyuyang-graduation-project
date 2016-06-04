@@ -84,9 +84,10 @@ public class AlarmListActivity extends Activity {
 
                 AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
                 am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), sender);
-
             }
         });
+
+        aboutTv.setClickable(false);
 
         addIv.setOnClickListener(new View.OnClickListener() {
             @Override
