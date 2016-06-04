@@ -118,7 +118,7 @@ public class CustomUserDefinedActivity extends FragmentActivity implements View.
             mRepeatType = new RepeatType(-1, -1, monthFragment.getDay());
         }
         if (currentItem == 3) {
-            mRepeatType = new RepeatType(-1, monthFragment.getMonth(), specialFrament.getDay());
+            mRepeatType = new RepeatType(-1, specialFrament.getMonth(), specialFrament.getDay());
         }
         setResult(RESULT_OK, new Intent().putExtra(ConstantValue.repeatKeyString, mRepeatType));
         finish();

@@ -59,9 +59,9 @@ public class DatePickerFragment extends Fragment {
 
         mNumberPickers = findNumberPicker(mDatePicker);
         initNumPicker();
-        if (current ==2){
+        if (current == 2) {
             disappearMouthAndYearNum();
-        }else if (current ==3){
+        } else if (current == 3) {
             disappearYearNum();
         }
         return v;
@@ -113,7 +113,7 @@ public class DatePickerFragment extends Fragment {
     }
 
     public int getMonth() {
-        return mDatePicker.getMonth();
+        return mDatePicker.getMonth() + 1;
     }
 
     public int getDay() {
@@ -121,6 +121,7 @@ public class DatePickerFragment extends Fragment {
     }
 
     public void disappearMouthAndYearNum() {
+//        dayNumberPicker.setMaxValue(31);
         yearNumberPicker.setVisibility(View.GONE);
         monthNumberPicker.setVisibility(View.GONE);
     }
