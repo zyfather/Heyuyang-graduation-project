@@ -162,6 +162,27 @@ public class AlarmData implements Serializable {
                 case RepeatType.ONEDAY:
                     typeStr = repeatType.getYear() + "年" + repeatType.getMonth() + "月" + repeatType.getDay() + "日";
                     break;
+                case RepeatType.INTERVALDAY:
+                    if (repeatType.getiDay() == 0) {
+                        typeStr = "每隔" + repeatType.getdInterval() + "天";
+                    }else {
+                        typeStr = "从明天起每隔" + repeatType.getdInterval() + "天";
+                    }
+                    break;
+                case RepeatType.INTERVALHOUR:
+                    if (repeatType.getiDay() == 0) {
+                        typeStr = "每隔" + repeatType.gethInterval() + "小时";
+                    }else {
+                        typeStr = "从明天起每隔" + repeatType.gethInterval() + "小时";
+                    }
+                    break;
+                case RepeatType.INTERVALMIN:
+                    if (repeatType.getiDay() == 0) {
+                        typeStr = "每隔" + repeatType.getmInterval() + "分钟";
+                    }else {
+                        typeStr = "从明天起每隔" + repeatType.getmInterval() + "分钟";
+                    }
+                    break;
             }
         }
 

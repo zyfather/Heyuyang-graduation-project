@@ -269,6 +269,57 @@ public class AlarmUtil {
                         am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), sender);
                     }
                     break;
+                case RepeatType.INTERVALDAY:
+                    // TODO: 16/6/9 间隔天数
+                    calendar.set(Calendar.HOUR, hou);
+                    calendar.set(Calendar.MINUTE, min);
+                    INTERVAL = 1000 * 60 * 60 * 24 * alarmData.getRepeatType().getdInterval();//dInterval days
+                    //万一今天已经过了 往后延长间隔天数 如果设置的时明天 先加个1
+                    if (alarmData.getRepeatType().getiDay() == 1){
+                        calendar.add(Calendar.HOUR , 24);
+                    }
+                    if (calendar.getTimeInMillis() <= System.currentTimeMillis()){
+                        calendar.add(Calendar.HOUR , 24 * alarmData.getRepeatType().getdInterval());
+                    }
+                    intent.putExtra("alarmData", alarmData);
+                    sender = PendingIntent.getBroadcast(
+                            ctx, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), INTERVAL, sender);
+                    break;
+                case RepeatType.INTERVALHOUR:
+                    // TODO: 16/6/9 间隔小时
+                    calendar.set(Calendar.HOUR, hou);
+                    calendar.set(Calendar.MINUTE, min);
+                    INTERVAL = 1000 * 60 * 60 * alarmData.getRepeatType().gethInterval();//hInterval hours
+                    //万一今天已经过了 往后延长一天 如果设置的时明天 先加个1
+                    if (alarmData.getRepeatType().getiDay() == 1){
+                        calendar.add(Calendar.HOUR , 24);
+                    }
+                    if (calendar.getTimeInMillis() <= System.currentTimeMillis()){
+                        calendar.add(Calendar.HOUR , 24);
+                    }
+                    intent.putExtra("alarmData", alarmData);
+                    sender = PendingIntent.getBroadcast(
+                            ctx, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), INTERVAL, sender);
+                    break;
+                case RepeatType.INTERVALMIN:
+                    // TODO: 16/6/9 间隔分钟
+                    calendar.set(Calendar.HOUR, hou);
+                    calendar.set(Calendar.MINUTE, min);
+                    INTERVAL = 1000 * 60 * 60 * alarmData.getRepeatType().getmInterval();//hInterval minutes
+                    //万一今天已经过了 往后延长一天 如果设置的时明天 先加个1
+                    if (alarmData.getRepeatType().getiDay() == 1){
+                        calendar.add(Calendar.HOUR , 24);
+                    }
+                    if (calendar.getTimeInMillis() <= System.currentTimeMillis()){
+                        calendar.add(Calendar.HOUR , 24);
+                    }
+                    intent.putExtra("alarmData", alarmData);
+                    sender = PendingIntent.getBroadcast(
+                            ctx, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), INTERVAL, sender);
+                    break;
 
             }
         }

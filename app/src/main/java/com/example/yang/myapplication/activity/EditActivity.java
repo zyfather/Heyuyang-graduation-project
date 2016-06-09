@@ -367,6 +367,27 @@ public class EditActivity extends Activity {
                         case RepeatType.ONEDAY:
                             builder.append(repeatType.getYear()).append(".").append(repeatType.getMonth()).append(".").append(repeatType.getDay());
                             break;
+                        case RepeatType.INTERVALDAY:
+                            if (repeatType.getiDay() == 0){
+                                builder.append("每隔").append(repeatType.getdInterval()).append("天");
+                            }else{
+                                builder.append("从明天起每隔").append(repeatType.getdInterval()).append("天");
+                            }
+                            break;
+                        case RepeatType.INTERVALHOUR:
+                            if (repeatType.getiDay() == 0){
+                                builder.append("每隔").append(repeatType.gethInterval()).append("小时");
+                            }else{
+                                builder.append("从明天起每隔").append(repeatType.gethInterval()).append("小时");
+                            }
+                            break;
+                        case RepeatType.INTERVALMIN:
+                            if (repeatType.getiDay() == 0){
+                                builder.append("每隔").append(repeatType.getmInterval()).append("分钟");
+                            }else{
+                                builder.append("从明天起每隔").append(repeatType.getmInterval()).append("分钟");
+                            }
+                            break;
                     }
                     repeatText.setText(builder);
                     repeatText.setSelected(true);
