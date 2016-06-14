@@ -42,9 +42,9 @@ public class AlarmCheckService extends Service {
             @Override
             public void run() {
                 while (flag) {
-
                     List<AlarmData> alarmDataList = AlarmUtil.getAlarms(ctx);
-                    
+
+
 
                     try {
                         Thread.sleep(10000);

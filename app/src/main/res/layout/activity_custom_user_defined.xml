@@ -59,6 +59,11 @@
             style="@style/define_chooseBar_tv_style"
             android:text="@string/specialDay"/>
 
+        <TextView
+            android:id="@+id/define_activity_interval"
+            style="@style/define_chooseBar_tv_style"
+            android:text="@string/interval"/>
+
 
     </LinearLayout>
 

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <RadioGroup
+        android:id="@+id/custom_user_defined_radiogroup"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/radio_today"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:scaleX="0.7"
+                android:scaleY="0.7"
+                android:textSize="30dp"
+                android:textColor="@color/black"
+                android:text="今天"
+                android:layout_width="wrap_content" />
+
+            <RadioButton
+                android:id="@+id/radio_tomorrow"
+                android:textColor="@color/black"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:scaleX="0.7"
+                android:scaleY="0.7"
+                android:textSize="30dp"
+                android:text="明天"
+                android:layout_width="wrap_content" />
+    </RadioGroup>
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:orientation="horizontal"
+           android:gravity="center">
+
+           <EditText
+               android:id="@+id/custom_user_defined_interval"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:textColor="@color/black"
+               android:textColorHint="@color/gray"
+               android:hint="@string/intervaltime"
+               android:inputType="number"/>
+
+           <NumberPicker
+               android:id="@+id/custom_user_defined_numberpicker"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+              ></NumberPicker>
+       </LinearLayout>
+
+</LinearLayout>

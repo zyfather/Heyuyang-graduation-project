@@ -28,8 +28,15 @@ public class AlarmReceiver extends BroadcastReceiver {
             AlarmUtil.windUp(context, alarmData);
         } else if (!alarmData.isRepeat()) {//close if not repeat
             AlarmUtil.closeAlarm(context, alarmData);
+        }else if (alarmData.getRepeatType().getType() == RepeatType.INTERVALMIN){
+            alarmData.setMinute();
+            AlarmUtil.updateAlarm(context,alarmData);
+            AlarmUtil.windUp(context, alarmData);
+        }else if (alarmData.getRepeatType().getType() == RepeatType.INTERVALHOUR){
+            alarmData.setHour();
+            AlarmUtil.updateAlarm(context,alarmData);
+            AlarmUtil.windUp(context, alarmData);
         }
-
         Intent wake = new Intent(context, WakeUpActivity.class);
         wake.putExtra("alarmData", alarmData);
         wake.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

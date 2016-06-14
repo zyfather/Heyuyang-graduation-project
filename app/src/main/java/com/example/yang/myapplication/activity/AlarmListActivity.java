@@ -1,8 +1,6 @@
 package com.example.yang.myapplication.activity;
 
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,15 +13,12 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.yang.myapplication.AlarmReceiver;
 import com.example.yang.myapplication.R;
 import com.example.yang.myapplication.adapter.AlarmAdapter;
 import com.example.yang.myapplication.data.AlarmData;
-import com.example.yang.myapplication.data.RepeatType;
 import com.example.yang.myapplication.utils.AlarmUtil;
 
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -37,6 +32,7 @@ public class AlarmListActivity extends Activity {
     TextView aboutTv;
     TextView middleTv;
     ImageView addIv;
+    TextView rightTv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +46,14 @@ public class AlarmListActivity extends Activity {
         aboutTv = (TextView) findViewById(R.id.title_left_tv);
         middleTv = (TextView) findViewById(R.id.title_middle_tv);
         addIv = (ImageView) findViewById(R.id.title_right_iv);
+        rightTv = (TextView) findViewById(R.id.title_right_tv);
         mAlarmList = (RecyclerView) findViewById(R.id.alarm_list);
         mAlarmList.setLayoutManager(new LinearLayoutManager(this));
 
         aboutTv.setText(R.string.about);
         middleTv.setText(R.string.alarm);
         addIv.setVisibility(View.VISIBLE);
+        rightTv.setVisibility(View.GONE);
         findViewById(R.id.title_right_tv).setVisibility(View.GONE);
 
         aboutTv.setOnClickListener(new View.OnClickListener() {
@@ -73,21 +71,28 @@ public class AlarmListActivity extends Activity {
 //                mAdapter.setmDatas(alarmDatas);
 
 
-                Intent intent = new Intent(AlarmListActivity.this, AlarmReceiver.class);
-                intent.putExtra("alarmData", new AlarmData("><", "...", 11, 11, true, 2, new RepeatType(), true, false, new int[]{0x11}));
-                PendingIntent sender = PendingIntent.getBroadcast(
-                        AlarmListActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTimeInMillis(System.currentTimeMillis());
-                calendar.add(Calendar.SECOND, 1);
-
-                AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
-                am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), sender);
+//                Intent intent = new Intent(AlarmListActivity.this, AlarmReceiver.class);
+//                intent.putExtra("alarmData", new AlarmData("><", "...", 11, 11, true, 2, new RepeatType(), true, false, new int[]{0x11}));
+//                PendingIntent sender = PendingIntent.getBroadcast(
+//                        AlarmListActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+//
+//                Calendar calendar = Calendar.getInstance();
+//                calendar.setTimeInMillis(System.currentTimeMillis());
+//                calendar.add(Calendar.SECOND, 1);
+//
+//                AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+//                am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), sender);
             }
         });
 
-        aboutTv.setClickable(false);
+        //aboutTv.setClickable(false);
+
+        //aboutTv.setClickable(false);
+//        aboutTv.setOnClickListener(new View.OnClickListener(){
+//            public void onClick(View v){
+//                AlarmUtil.saveAlarm(this, new AlarmData("吃药", "药不能停...", 8, 0, false, 1, new RepeatType(-1,-1,2,0), true, true, new int[]{0}));
+//           }
+//        });
 
         addIv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,7 +107,9 @@ public class AlarmListActivity extends Activity {
 //                , new AlarmData("信用卡还贷", "药不能停...", 9, 0, false, "", new RepeatType(-1, -1, 28), true, true, new int[]{1})
 //                , new AlarmData("纪念日", "药不能停...", 10, 0, false, "", new RepeatType(2016, 6, 14), true, true, new int[]{2})
 //                , new AlarmData("起床", "药不能停...", 7, 45, false, "", new RepeatType(WeekDay.FRI, WeekDay.MON, WeekDay.WEN), true, true, new int[]{3}));
-
+        //AlarmUtil.saveAlarm(this, new AlarmData("test","something like this", 16, 48 , true, 1,new RepeatType(-1,-1,3,0),true,true,new int[]{0}));
+        //AlarmUtil.saveAlarm(this, new AlarmData("test2","something like this", 16, 49 , true, 1,new RepeatType(-1,-1,-1),true,true,new int[]{0}));
+        //Log.i("abc", "build succeed");
         mAdapter = new AlarmAdapter(this);
         List<AlarmData> alarmDatas = AlarmUtil.getAlarms(this);
         mAlarmList.setAdapter(mAdapter);

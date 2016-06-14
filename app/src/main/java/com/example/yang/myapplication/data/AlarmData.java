@@ -30,6 +30,7 @@ public class AlarmData implements Serializable {
         this.repeatType = repeatType;
         this.isOn = isOn;
         this.isRepeat = isRepeat;
+        //Log.i("abc", "add succeed");
 
 
 //        if (repeatType.getType() == RepeatType.WEEKDAY) {
@@ -54,12 +55,12 @@ public class AlarmData implements Serializable {
         this.details = details;
     }
 
-    public void setHour(int hour) {
-        this.hour = hour;
+    public void setHour() {
+        this.hour = this.hour+repeatType.gethInterval();
     }
 
-    public void setMinute(int minute) {
-        this.minute = minute;
+    public void setMinute() {
+        this.minute = this.minute+repeatType.getmInterval();
     }
 
     public boolean isVib() {

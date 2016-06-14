@@ -10,6 +10,7 @@
     <string name="day">某天</string>
     <string name="month">每月</string>
     <string name="specialDay">纪念日</string>
+    <string name="interval">间隔</string>
     <string name="alarm_info">alarm_info</string>
     <string name="monday">星期一</string>
     <string name="tuesday">星期二</string>
@@ -19,4 +20,5 @@
     <string name="saturday">星期六</string>
     <string name="sunday">星期日</string>
     <string name="repeat">重复</string>
+    <string name="intervaltime">间隔时间</string>
 </resources>

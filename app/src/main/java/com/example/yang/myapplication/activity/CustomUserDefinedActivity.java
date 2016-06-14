@@ -15,6 +15,7 @@ import com.example.yang.myapplication.ConstantValue;
 import com.example.yang.myapplication.R;
 import com.example.yang.myapplication.activity.fragment.CheckBoxFragment;
 import com.example.yang.myapplication.activity.fragment.DatePickerFragment;
+import com.example.yang.myapplication.activity.fragment.IntervalFragment;
 import com.example.yang.myapplication.adapter.DefineFragmentPaperAdapter;
 import com.example.yang.myapplication.data.RepeatType;
 import com.example.yang.myapplication.data.WeekDay;
@@ -34,6 +35,7 @@ public class CustomUserDefinedActivity extends FragmentActivity implements View.
     TextView dayTV;
     TextView monthTv;
     TextView specialDayTv;
+    TextView intervalDayTv;
     TextView leftTv;
     TextView middleTv;
     TextView rightTv;
@@ -42,6 +44,7 @@ public class CustomUserDefinedActivity extends FragmentActivity implements View.
     DatePickerFragment dayFragment;
     DatePickerFragment monthFragment;
     CheckBoxFragment weekFragment;
+    IntervalFragment intervalFragment;
 
     ViewPager mViewPager;
     DatePicker mDatePicker;
@@ -56,6 +59,7 @@ public class CustomUserDefinedActivity extends FragmentActivity implements View.
         dayTV = (TextView) findViewById(R.id.define_activity_day);
         monthTv = (TextView) findViewById(R.id.define_activity_month);
         specialDayTv = (TextView) findViewById(R.id.define_activity_specialday);
+        intervalDayTv = (TextView) findViewById(R.id.define_activity_interval);
         mViewPager = (ViewPager) findViewById(R.id.custom_user_defined_viewpager);
         leftTv = (TextView) findViewById(R.id.title_left_tv);
         middleTv = (TextView) findViewById(R.id.title_middle_tv);
@@ -76,6 +80,7 @@ public class CustomUserDefinedActivity extends FragmentActivity implements View.
         dayTV.setOnClickListener(this);
         monthTv.setOnClickListener(this);
         specialDayTv.setOnClickListener(this);
+        intervalDayTv.setOnClickListener(this);
     }
 
     @Override
@@ -102,6 +107,10 @@ public class CustomUserDefinedActivity extends FragmentActivity implements View.
                 Log.d(TAG, "specialday");
                 showPager((TextView) v, 3);
                 break;
+            case R.id.define_activity_interval:
+                Log.d(TAG, "interval");
+                showPager((TextView) v, 4);
+                break;
         }
     }
 
@@ -119,6 +128,9 @@ public class CustomUserDefinedActivity extends FragmentActivity implements View.
         }
         if (currentItem == 3) {
             mRepeatType = new RepeatType(-1, specialFrament.getMonth(), specialFrament.getDay());
+        }
+        if (currentItem == 4) {
+            mRepeatType = intervalFragment.getRepeatType();
         }
         setResult(RESULT_OK, new Intent().putExtra(ConstantValue.repeatKeyString, mRepeatType));
         finish();
@@ -151,11 +163,13 @@ public class CustomUserDefinedActivity extends FragmentActivity implements View.
         dayFragment = new DatePickerFragment();
         monthFragment = new DatePickerFragment();
         weekFragment = new CheckBoxFragment();
+        intervalFragment = new IntervalFragment();
 
         paperFragments.add(weekFragment);
         paperFragments.add(dayFragment);
         paperFragments.add(monthFragment);
         paperFragments.add(specialFrament);
+        paperFragments.add(intervalFragment);
 
         mViewPager.setAdapter(new DefineFragmentPaperAdapter(getSupportFragmentManager(), paperFragments));
         mViewPager.setCurrentItem(0);
@@ -187,6 +201,13 @@ public class CustomUserDefinedActivity extends FragmentActivity implements View.
                     initTextColor();
                     specialFrament.displaySpecialDay();
                     specialDayTv.setTextColor(getApplicationContext().getResources().getColor(R.color.title_red));
+                }
+                if (position == 4) {
+                    initTextColor();
+                    //这是干啥的?
+                    //monthFragment.displayEveryMonth();
+                    //specialFrament.displaySpecialDay();
+                    intervalDayTv.setTextColor(getApplicationContext().getResources().getColor(R.color.title_red));
                 }
             }
 

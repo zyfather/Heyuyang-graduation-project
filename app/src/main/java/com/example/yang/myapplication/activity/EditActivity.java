@@ -121,6 +121,8 @@ public class EditActivity extends Activity {
         ringText.setText(sysRings.get(saveAlarm.getRing()));
         currentRing = saveAlarm.getRing();
         isVib = saveAlarm.isVib();
+        repeatType = saveAlarm.getRepeatType();
+        isRepeat = saveAlarm.isRepeat();
 
     }
 
