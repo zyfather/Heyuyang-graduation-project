@@ -15,4 +15,6 @@ public class ConstantValue {
 
     public final static String ACTION_RECEIVER = "WAKE_ALARM";
 
+    public final static String FIRST_IN = "first_in";
+
 }

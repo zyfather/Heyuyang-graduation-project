@@ -21,4 +21,6 @@
     <string name="sunday">星期日</string>
     <string name="repeat">重复</string>
     <string name="intervaltime">间隔时间</string>
+    <string name="strPoint">小圆点</string>
+    <string name="goin">开始进入</string>
 </resources>

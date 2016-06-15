@@ -9,6 +9,12 @@
         android:id="@+id/tag_title"
         layout="@layout/dialog_title" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="5dp"
+        android:background="@color/gray" />
+
     <Switch
         android:id="@+id/ring_vib"
         android:layout_width="match_parent"

@@ -1,13 +1,12 @@
 package com.example.yang.myapplication.activity;
 
 import android.app.Activity;
-import android.content.Context;
+import android.app.AlertDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -18,7 +17,6 @@ import com.example.yang.myapplication.adapter.AlarmAdapter;
 import com.example.yang.myapplication.data.AlarmData;
 import com.example.yang.myapplication.utils.AlarmUtil;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -59,13 +57,34 @@ public class AlarmListActivity extends Activity {
         aboutTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                View dialogView = LayoutInflater.from(AlarmListActivity.this).inflate(R.layout.dialog_about, null);
+                AlertDialog.Builder builder
+                        = new AlertDialog.Builder(AlarmListActivity.this);
+                final AlertDialog dialog = builder.setView(dialogView).create();
+                dialog.show();
+                TextView mid = (TextView) dialogView.findViewById(R.id.dialog_middle);
+                mid.setText("关于");
+                TextView tv1 = (TextView) dialogView.findViewById(R.id.about_tv1);
+                TextView tv2 = (TextView) dialogView.findViewById(R.id.about_tv2);
+                TextView tv3 = (TextView) dialogView.findViewById(R.id.about_tv3);
+                dialogView.findViewById(R.id.dialog_confirm).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                dialogView.findViewById(R.id.dialog_cancel).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
 
-
-                SharedPreferences sp = getSharedPreferences(getString(R.string.alarm_info), Context.MODE_APPEND);
-                String alarmsJson = sp.getString("alarmsJson", null);
-
-                if (alarmsJson != null && alarmsJson.length() > 0)
-                    Log.d("alarms", alarmsJson + "//" + Arrays.toString(AlarmUtil.getAlarms(AlarmListActivity.this).toArray()));
+//                SharedPreferences sp = getSharedPreferences(getString(R.string.alarm_info), Context.MODE_APPEND);
+//                String alarmsJson = sp.getString("alarmsJson", null);
+//
+//                if (alarmsJson != null && alarmsJson.length() > 0)
+//                    Log.d("alarms", alarmsJson + "//" + Arrays.toString(AlarmUtil.getAlarms(AlarmListActivity.this).toArray()));
 //                AlarmUtil.replaceAlarm(AlarmListActivity.this, new AlarmData[]{});
 //                List<AlarmData> alarmDatas = AlarmUtil.getAlarms(AlarmListActivity.this);
 //                mAdapter.setmDatas(alarmDatas);
@@ -82,6 +101,7 @@ public class AlarmListActivity extends Activity {
 //
 //                AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
 //                am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), sender);
+
             }
         });
 

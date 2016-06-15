@@ -328,6 +328,7 @@ public class AlarmUtil {
                             ctx, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 //                    am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), INTERVAL, sender);
                     am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), sender);
+                    break;
 
             }
         }

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <include
+        android:id="@+id/tag_title"
+        layout="@layout/dialog_title"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="2dp"
+        android:background="@color/gray" />
+
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:padding="8dp"
+    >
+    <TextView
+        android:id="@+id/about_tv1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="version:2.0"
+        android:textColor="@color/black"
+        />
+
+    <TextView
+        android:id="@+id/about_tv2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Thanks to:ShaunRain mingJobo"
+        android:textColor="@color/black"
+        />
+
+    <TextView
+        android:id="@+id/about_tv3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Developed by Yang"
+        android:textColor="@color/black"
+        />
+</LinearLayout>
+
+
+</LinearLayout>
